@@ -1,4 +1,5 @@
 import pygame
+import pygame_menu
 import sys
 
 WIDTH, HEIGHT = 1080, 720
@@ -39,6 +40,23 @@ class MainMenu:
 
     def run(self):
         self.display.fill("black")
+        self.draw()
+
+    def draw(self):
+        menu = pygame_menu.Menu(
+            title="Breakout",
+            width=1080,
+            height=720,
+            theme=pygame_menu.themes.THEME_DARK,
+        )
+        play_button = menu.add.button("Play")
+        instructions_button = menu.add.button("Instructions")
+        highscores_button = menu.add.button("Highscores")
+        quit_button = menu.add.button("Quit")
+        menu.mainloop(self.display)
+
+    def open_instructions(self):
+        pass
 
 
 class GameStateManager:
