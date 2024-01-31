@@ -20,10 +20,12 @@ class Game:
         self.game_state_manager = GameStateManager("main menu")
         self.main_menu = MainMenu(self.screen, self.game_state_manager)
         self.instructions = InstructionsPage(self.screen, self.game_state_manager)
+        self.game_screen = GameScreen(self.screen, self.game_state_manager)
 
         self.states = {
             "main menu": self.main_menu,
             "instructions": self.instructions,
+            "game": self.game_screen,
         }
 
     def run(self):
@@ -59,6 +61,8 @@ class MainMenu:
         pygame.draw.rect(self.display, "black", (490, 300, 100, 50))
         if 490 < game_instance.mouse[0] < 590 and 300 < game_instance.mouse[1] < 350:
             play_text = self.menu_font.render("Play", True, "red")
+            if game_instance.mouse_clicked[0] == True:
+                self.start_game()
         else:
             play_text = self.menu_font.render("Play", True, "white")
         self.display.blit(play_text, (515, 307))
@@ -88,6 +92,9 @@ class MainMenu:
 
     def quit_game(self):
         game_instance.is_running = False
+
+    def start_game(self):
+        self.gamestatemanager.set_state("game")
 
 
 class InstructionsPage:
@@ -235,6 +242,34 @@ class InstructionsPage:
 
     def open_main_menu(self):
         self.gamestatemanager.set_state("main menu")
+
+
+class GameScreen:
+    def __init__(self, display, game_state_manager):
+        self.display = display
+        self.gamestatemanager = game_state_manager
+
+    def run(self):
+        self.display.fill("black")
+        self.draw()
+
+    def draw(self):
+        paddle = Paddle(self.display)
+
+
+class Paddle:
+    def __init__(self, display):
+        self.display = display
+        self.width = 80
+        self.height = 10
+        self.x_pos = 500
+        self.y_pos = 680
+
+        pygame.draw.rect(
+            self.display,
+            "yellow",
+            (self.x_pos, self.y_pos, self.width, self.height),
+        )
 
 
 class GameStateManager:
