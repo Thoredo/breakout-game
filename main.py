@@ -20,7 +20,8 @@ class Game:
         self.game_state_manager = GameStateManager("main menu")
         self.main_menu = MainMenu(self.screen, self.game_state_manager)
         self.instructions = InstructionsPage(self.screen, self.game_state_manager)
-        self.game_screen = GameScreen(self.screen, self.game_state_manager)
+        self.paddle = Paddle(self.screen)
+        self.game_screen = GameScreen(self.screen, self.game_state_manager, self.paddle)
 
         self.states = {
             "main menu": self.main_menu,
@@ -31,6 +32,7 @@ class Game:
     def run(self):
         while self.is_running:
             self.handle_events()
+            self.handle_key_presses()
             self.clock.tick(FPS)
             self.states[self.game_state_manager.get_state()].run()
             self.mouse = pygame.mouse.get_pos()
@@ -41,6 +43,14 @@ class Game:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 self.is_running = False
+
+    def handle_key_presses(self):
+        keys = pygame.key.get_pressed()
+
+        if keys[pygame.K_LEFT]:
+            self.paddle.move_left()
+        if keys[pygame.K_RIGHT]:
+            self.paddle.move_right()
 
 
 class MainMenu:
@@ -245,16 +255,17 @@ class InstructionsPage:
 
 
 class GameScreen:
-    def __init__(self, display, game_state_manager):
+    def __init__(self, display, game_state_manager, paddle):
         self.display = display
         self.gamestatemanager = game_state_manager
+        self.paddle = paddle
 
     def run(self):
         self.display.fill("black")
         self.draw()
 
     def draw(self):
-        paddle = Paddle(self.display)
+        self.paddle.draw_paddle()
 
 
 class Paddle:
@@ -265,11 +276,20 @@ class Paddle:
         self.x_pos = 500
         self.y_pos = 680
 
+    def draw_paddle(self):
         pygame.draw.rect(
             self.display,
             "yellow",
             (self.x_pos, self.y_pos, self.width, self.height),
         )
+
+    def move_left(self):
+        if self.x_pos > 3:
+            self.x_pos -= 3
+
+    def move_right(self):
+        if self.x_pos < 1000:
+            self.x_pos += 3
 
 
 class GameStateManager:
