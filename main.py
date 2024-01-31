@@ -21,7 +21,10 @@ class Game:
         self.main_menu = MainMenu(self.screen, self.game_state_manager)
         self.instructions = InstructionsPage(self.screen, self.game_state_manager)
         self.paddle = Paddle(self.screen)
-        self.game_screen = GameScreen(self.screen, self.game_state_manager, self.paddle)
+        self.ball = Ball(self.screen, self.paddle)
+        self.game_screen = GameScreen(
+            self.screen, self.game_state_manager, self.paddle, self.ball
+        )
 
         self.states = {
             "main menu": self.main_menu,
@@ -255,10 +258,11 @@ class InstructionsPage:
 
 
 class GameScreen:
-    def __init__(self, display, game_state_manager, paddle):
+    def __init__(self, display, game_state_manager, paddle, ball):
         self.display = display
         self.gamestatemanager = game_state_manager
         self.paddle = paddle
+        self.ball = ball
 
     def run(self):
         self.display.fill("black")
@@ -266,6 +270,7 @@ class GameScreen:
 
     def draw(self):
         self.paddle.draw_paddle()
+        self.ball.draw_ball()
 
 
 class Paddle:
@@ -290,6 +295,16 @@ class Paddle:
     def move_right(self):
         if self.x_pos < 1000:
             self.x_pos += 3
+
+
+class Ball:
+    def __init__(self, display, paddle):
+        self.display = display
+        self.paddle = paddle
+        self.start_position = 540
+
+    def draw_ball(self):
+        pygame.draw.circle(self.display, "green", (self.start_position, 665), 10)
 
 
 class GameStateManager:
