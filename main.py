@@ -3,6 +3,7 @@ import sys
 
 WIDTH, HEIGHT = 1080, 720
 FPS = 60
+PADDLE_SPEED = 3
 
 
 class Game:
@@ -52,8 +53,12 @@ class Game:
 
         if keys[pygame.K_LEFT]:
             self.paddle.move_left()
+            if self.ball.on_paddle:
+                self.ball.start_position = self.paddle.x_pos + 40
         if keys[pygame.K_RIGHT]:
             self.paddle.move_right()
+            if self.ball.on_paddle:
+                self.ball.start_position = self.paddle.x_pos + 40
 
 
 class MainMenu:
@@ -289,12 +294,12 @@ class Paddle:
         )
 
     def move_left(self):
-        if self.x_pos > 3:
-            self.x_pos -= 3
+        if self.x_pos > 0:
+            self.x_pos -= PADDLE_SPEED
 
     def move_right(self):
         if self.x_pos < 1000:
-            self.x_pos += 3
+            self.x_pos += PADDLE_SPEED
 
 
 class Ball:
@@ -302,9 +307,17 @@ class Ball:
         self.display = display
         self.paddle = paddle
         self.start_position = 540
+        self.on_paddle = True
+        self.x_pos = 540
+        self.y_pos = 665
 
     def draw_ball(self):
-        pygame.draw.circle(self.display, "green", (self.start_position, 665), 10)
+        if self.on_paddle:
+            pygame.draw.circle(
+                self.display, "green", (self.start_position, self.y_pos), 10
+            )
+        else:
+            pygame.draw.circle(self.display, "green", (self.x_pos, self.y_pos), 10)
 
 
 class GameStateManager:
