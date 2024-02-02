@@ -1,3 +1,6 @@
+import pygame
+
+
 class GameScreen:
     def __init__(self, display, game_state_manager, paddle, ball, level):
         self.display = display
@@ -5,6 +8,7 @@ class GameScreen:
         self.paddle = paddle
         self.ball = ball
         self.level = level
+        self.scoreboard_font = pygame.font.SysFont("Arial", 20, bold=True)
 
     def run(self):
         self.display.fill("black")
@@ -14,3 +18,16 @@ class GameScreen:
         self.paddle.draw_paddle()
         self.ball.draw_ball()
         self.level.draw()
+        self.draw_scoreboard()
+
+    def draw_scoreboard(self):
+        level_text = self.scoreboard_font.render(
+            f"Level: {self.level.current_level}", True, "white"
+        )
+        self.display.blit(level_text, (300, 10))
+
+        lives_text = self.scoreboard_font.render("Lives: 3", True, "white")
+        self.display.blit(lives_text, (450, 10))
+
+        score_text = self.scoreboard_font.render("Score: 0", True, "white")
+        self.display.blit(score_text, (600, 10))
