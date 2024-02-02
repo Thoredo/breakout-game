@@ -4,17 +4,20 @@ import constants
 SCREEN_WIDTH, SCREEN_HEIGHT = constants.SCREEN_WIDTH, constants.SCREEN_HEIGHT
 BALL_SPEED_X = constants.BALL_SPEED_X
 BALL_SPEED_Y = constants.BALL_SPEED_Y
+BALL_START_X = constants.BALL_START_X
+BALL_START_Y = constants.BALL_START_Y
 
 
 class Ball:
-    def __init__(self, display, paddle):
+    def __init__(self, display, paddle, game_instance):
         self.display = display
         self.paddle = paddle
+        self.game_instace = game_instance
 
         self.ball_radius = 10
         self.on_paddle = True
-        self.x_pos = 540
-        self.y_pos = 670
+        self.x_pos = BALL_START_X
+        self.y_pos = BALL_START_Y
         self.x_speed = BALL_SPEED_X
         self.y_speed = BALL_SPEED_Y
 
@@ -44,7 +47,7 @@ class Ball:
 
             # Check for collision with bottom of screen
             if self.rect.bottom > SCREEN_HEIGHT:
-                print("game over")
+                self.handle_missed_ball()
 
             # Detect collision with paddle
             if self.rect.colliderect(self.paddle):
@@ -58,3 +61,10 @@ class Ball:
             # Move the ball
             self.x_pos += self.x_speed
             self.y_pos += self.y_speed
+
+    def handle_missed_ball(self):
+        self.game_instace.player_lives -= 1
+
+        self.on_paddle = True
+        self.x_pos = self.paddle.x_pos + 40
+        self.y_pos = BALL_START_Y

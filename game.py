@@ -22,6 +22,7 @@ class Game:
         self.is_running = True
         self.mouse = (0, 0)
         self.mouse_clicked = (False, False, False)
+        self.player_lives = 3
 
         pygame.font.init()
 
@@ -29,10 +30,15 @@ class Game:
         self.main_menu = MainMenu(self.screen, self.game_state_manager, self)
         self.instructions = InstructionsPage(self.screen, self.game_state_manager, self)
         self.paddle = Paddle(self.screen)
-        self.ball = Ball(self.screen, self.paddle)
+        self.ball = Ball(self.screen, self.paddle, self)
         self.level = Level(self.screen, 1)
         self.game_screen = GameScreen(
-            self.screen, self.game_state_manager, self.paddle, self.ball, self.level
+            self.screen,
+            self.game_state_manager,
+            self.paddle,
+            self.ball,
+            self.level,
+            self,
         )
 
         self.states = {
