@@ -37,6 +37,7 @@ class Game:
         while self.is_running:
             self.handle_events()
             self.handle_key_presses()
+            self.ball.move()
             self.clock.tick(FPS)
             self.states[self.game_state_manager.get_state()].run()
             self.mouse = pygame.mouse.get_pos()
@@ -54,11 +55,13 @@ class Game:
         if keys[pygame.K_LEFT]:
             self.paddle.move_left()
             if self.ball.on_paddle:
-                self.ball.start_position = self.paddle.x_pos + 40
+                self.ball.x_pos = self.paddle.x_pos + 40
         if keys[pygame.K_RIGHT]:
             self.paddle.move_right()
             if self.ball.on_paddle:
-                self.ball.start_position = self.paddle.x_pos + 40
+                self.ball.x_pos = self.paddle.x_pos + 40
+        if keys[pygame.K_UP]:
+            self.ball.on_paddle = False
 
 
 class MainMenu:
@@ -306,18 +309,25 @@ class Ball:
     def __init__(self, display, paddle):
         self.display = display
         self.paddle = paddle
-        self.start_position = 540
+        self.ball_radius = 10
         self.on_paddle = True
         self.x_pos = 540
         self.y_pos = 665
+        self.x_speed = 4
+        self.y_speed = -4
 
     def draw_ball(self):
-        if self.on_paddle:
-            pygame.draw.circle(
-                self.display, "green", (self.start_position, self.y_pos), 10
-            )
-        else:
-            pygame.draw.circle(self.display, "green", (self.x_pos, self.y_pos), 10)
+        pygame.draw.circle(
+            self.display,
+            "green",
+            (self.x_pos, self.y_pos),
+            self.ball_radius,
+        )
+
+    def move(self):
+        if self.on_paddle == False:
+            self.x_pos += self.x_speed
+            self.y_pos += self.y_speed
 
 
 class GameStateManager:
