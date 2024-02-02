@@ -2,6 +2,8 @@ import pygame
 import sys
 from game_interface.game_state_manager import GameStateManager
 from game_interface.instructions_page import InstructionsPage
+from game_interface.game_screen import GameScreen
+from game_interface.main_menu import MainMenu
 
 SCREEN_WIDTH, SCREEN_HEIGHT = 1080, 720
 FPS = 60
@@ -23,7 +25,7 @@ class Game:
         pygame.font.init()
 
         self.game_state_manager = GameStateManager("main menu")
-        self.main_menu = MainMenu(self.screen, self.game_state_manager)
+        self.main_menu = MainMenu(self.screen, self.game_state_manager, self)
         self.instructions = InstructionsPage(self.screen, self.game_state_manager, self)
         self.paddle = Paddle(self.screen)
         self.ball = Ball(self.screen, self.paddle)
@@ -66,76 +68,6 @@ class Game:
                 self.ball.x_pos = self.paddle.x_pos + 40
         if keys[pygame.K_UP]:
             self.ball.on_paddle = False
-
-
-class MainMenu:
-    def __init__(self, display, game_state_manager):
-        self.display = display
-        self.gamestatemanager = game_state_manager
-        self.menu_font = pygame.font.SysFont("Arial", 30, bold=True)
-
-    def run(self):
-        self.display.fill("black")
-        self.draw()
-
-    def draw(self):
-        logo = pygame.image.load("images/logo.png")
-        self.display.blit(logo, (273, 145))
-
-        # Play Button
-        pygame.draw.rect(self.display, "black", (490, 300, 100, 50))
-        if 490 < game_instance.mouse[0] < 590 and 300 < game_instance.mouse[1] < 350:
-            play_text = self.menu_font.render("Play", True, "red")
-            if game_instance.mouse_clicked[0] == True:
-                self.start_game()
-        else:
-            play_text = self.menu_font.render("Play", True, "white")
-        self.display.blit(play_text, (515, 307))
-
-        # Instructions button
-        pygame.draw.rect(self.display, "black", (450, 360, 200, 50))
-        if 450 < game_instance.mouse[0] < 650 and 360 < game_instance.mouse[1] < 410:
-            instructions_text = self.menu_font.render("Instructions", True, "red")
-            if game_instance.mouse_clicked[0] == True:
-                self.open_instructions()
-        else:
-            instructions_text = self.menu_font.render("Instructions", True, "white")
-        self.display.blit(instructions_text, (480, 366))
-
-        # Quit Button
-        pygame.draw.rect(self.display, "black", (490, 420, 100, 50))
-        if 490 < game_instance.mouse[0] < 590 and 420 < game_instance.mouse[1] < 470:
-            quit_text = self.menu_font.render("Quit", True, "red")
-            if game_instance.mouse_clicked[0] == True:
-                self.quit_game()
-        else:
-            quit_text = self.menu_font.render("Quit", True, "white")
-        self.display.blit(quit_text, (515, 426))
-
-    def open_instructions(self):
-        self.gamestatemanager.set_state("instructions")
-
-    def quit_game(self):
-        game_instance.is_running = False
-
-    def start_game(self):
-        self.gamestatemanager.set_state("game")
-
-
-class GameScreen:
-    def __init__(self, display, game_state_manager, paddle, ball):
-        self.display = display
-        self.gamestatemanager = game_state_manager
-        self.paddle = paddle
-        self.ball = ball
-
-    def run(self):
-        self.display.fill("black")
-        self.draw()
-
-    def draw(self):
-        self.paddle.draw_paddle()
-        self.ball.draw_ball()
 
 
 class Paddle:
