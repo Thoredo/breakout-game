@@ -7,4 +7,4 @@ class Level:
         self.current_level = level
 
     def draw(self):
-        Brick(self.display, 1, 5, 5)
+        Brick(self.display, 1, 5, 50)

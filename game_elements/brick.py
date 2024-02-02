@@ -12,6 +12,6 @@ class Brick:
 
         pygame.draw.rect(
             self.display,
-            "yellow",
+            "blue",
             (self.x_pos, self.y_pos, self.width, self.height),
         )
