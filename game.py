@@ -6,6 +6,7 @@ from game_interface.game_screen import GameScreen
 from game_interface.main_menu import MainMenu
 from game_elements.paddle import Paddle
 from game_elements.ball import Ball
+from game_elements.level import Level
 
 
 SCREEN_WIDTH, SCREEN_HEIGHT = constants.SCREEN_WIDTH, constants.SCREEN_HEIGHT
@@ -29,6 +30,7 @@ class Game:
         self.instructions = InstructionsPage(self.screen, self.game_state_manager, self)
         self.paddle = Paddle(self.screen)
         self.ball = Ball(self.screen, self.paddle)
+        self.level = Level(1)
         self.game_screen = GameScreen(
             self.screen, self.game_state_manager, self.paddle, self.ball
         )
