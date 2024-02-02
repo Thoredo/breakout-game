@@ -1,7 +1,7 @@
 import pygame
 import sys
 
-WIDTH, HEIGHT = 1080, 720
+SCREEN_WIDTH, SCREEN_HEIGHT = 1080, 720
 FPS = 60
 PADDLE_SPEED = 3
 
@@ -9,7 +9,7 @@ PADDLE_SPEED = 3
 class Game:
     def __init__(self):
         pygame.init()
-        self.screen = pygame.display.set_mode((WIDTH, HEIGHT))
+        self.screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
         pygame.display.set_caption("Breakout")
         self.clock = pygame.time.Clock()
         self.is_running = True
@@ -309,6 +309,7 @@ class Ball:
     def __init__(self, display, paddle):
         self.display = display
         self.paddle = paddle
+
         self.ball_radius = 10
         self.on_paddle = True
         self.x_pos = 540
@@ -317,6 +318,10 @@ class Ball:
         self.y_speed = -4
 
     def draw_ball(self):
+        self.rect = pygame.Rect(
+            self.x_pos, self.y_pos, self.ball_radius, self.ball_radius
+        )
+
         pygame.draw.circle(
             self.display,
             "green",
@@ -326,6 +331,19 @@ class Ball:
 
     def move(self):
         if self.on_paddle == False:
+            # Check for collision with walls
+            if self.rect.left < 0 or self.rect.right > SCREEN_WIDTH:
+                self.x_speed *= -1
+
+            # Check for collision with top of screen
+            if self.rect.top < 0:
+                self.y_speed *= -1
+
+            # Check for collision with bottom of screen
+            if self.rect.bottom > SCREEN_HEIGHT:
+                print("game over")
+
+            # Move the ball
             self.x_pos += self.x_speed
             self.y_pos += self.y_speed
 
