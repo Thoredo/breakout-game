@@ -1,5 +1,6 @@
 import pygame
 import sys
+from game.game_state_manager import GameStateManager
 
 SCREEN_WIDTH, SCREEN_HEIGHT = 1080, 720
 FPS = 60
@@ -360,17 +361,6 @@ class Ball:
             # Move the ball
             self.x_pos += self.x_speed
             self.y_pos += self.y_speed
-
-
-class GameStateManager:
-    def __init__(self, current_state):
-        self.current_state = current_state
-
-    def get_state(self):
-        return self.current_state
-
-    def set_state(self, state):
-        self.current_state = state
 
 
 if __name__ == "__main__":
