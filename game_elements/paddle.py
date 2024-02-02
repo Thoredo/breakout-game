@@ -1,6 +1,7 @@
 import pygame
+import constants
 
-PADDLE_SPEED = 4
+PADDLE_SPEED = constants.PADDLE_SPEED
 
 
 class Paddle:
