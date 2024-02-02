@@ -30,9 +30,9 @@ class Game:
         self.instructions = InstructionsPage(self.screen, self.game_state_manager, self)
         self.paddle = Paddle(self.screen)
         self.ball = Ball(self.screen, self.paddle)
-        self.level = Level(1)
+        self.level = Level(self.screen, 1)
         self.game_screen = GameScreen(
-            self.screen, self.game_state_manager, self.paddle, self.ball
+            self.screen, self.game_state_manager, self.paddle, self.ball, self.level
         )
 
         self.states = {
