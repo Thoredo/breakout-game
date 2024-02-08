@@ -8,7 +8,7 @@ class GameScreen:
         self.paddle = paddle
         self.ball = ball
         self.level = level
-        self.game_instace = game_instance
+        self.game_instance = game_instance
         self.scoreboard_font = pygame.font.SysFont("Arial", 20, bold=True)
 
     def run(self):
@@ -28,9 +28,11 @@ class GameScreen:
         self.display.blit(level_text, (300, 10))
 
         lives_text = self.scoreboard_font.render(
-            f"Lives: {self.game_instace.player_lives}", True, "white"
+            f"Lives: {self.game_instance.player_lives}", True, "white"
         )
         self.display.blit(lives_text, (450, 10))
 
-        score_text = self.scoreboard_font.render("Score: 0", True, "white")
+        score_text = self.scoreboard_font.render(
+            f"Score: {self.game_instance.player_score}", True, "white"
+        )
         self.display.blit(score_text, (600, 10))

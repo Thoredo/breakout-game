@@ -12,7 +12,7 @@ class Ball:
     def __init__(self, display, paddle, game_instance, level):
         self.display = display
         self.paddle = paddle
-        self.game_instace = game_instance
+        self.game_instance = game_instance
         self.level = level
 
         self.ball_radius = 10
@@ -92,7 +92,7 @@ class Ball:
             self.y_pos += self.y_speed
 
     def handle_missed_ball(self):
-        self.game_instace.player_lives -= 1
+        self.game_instance.player_lives -= 1
 
         self.on_paddle = True
         self.x_pos = self.paddle.x_pos + 40
@@ -103,4 +103,5 @@ class Ball:
         brick.height = 0
         brick.rect.width = 0
         brick.rect.height = 0
+        self.game_instance.player_score += 10
         self.level.update_bricks(self.level.bricks)

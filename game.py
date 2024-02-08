@@ -23,6 +23,7 @@ class Game:
         self.mouse = (0, 0)
         self.mouse_clicked = (False, False, False)
         self.player_lives = 3
+        self.player_score = 0
 
         pygame.font.init()
 
