@@ -9,10 +9,11 @@ BALL_START_Y = constants.BALL_START_Y
 
 
 class Ball:
-    def __init__(self, display, paddle, game_instance):
+    def __init__(self, display, paddle, game_instance, level):
         self.display = display
         self.paddle = paddle
         self.game_instace = game_instance
+        self.level = level
 
         self.ball_radius = 10
         self.on_paddle = True
@@ -22,15 +23,15 @@ class Ball:
         self.y_speed = BALL_SPEED_Y
 
     def draw_ball(self):
-        self.rect = pygame.Rect(
-            self.x_pos, self.y_pos, self.ball_radius, self.ball_radius
-        )
-
         pygame.draw.circle(
             self.display,
             "green",
             (self.x_pos, self.y_pos),
             self.ball_radius,
+        )
+
+        self.rect = pygame.Rect(
+            self.x_pos, self.y_pos, self.ball_radius, self.ball_radius
         )
 
     def move(self):
@@ -57,6 +58,30 @@ class Ball:
                     and self.y_speed > 0
                 ):
                     self.y_speed *= -1
+
+            # Detect collision with blocks
+            for brick in self.level.bricks:
+                if self.rect.colliderect(brick.rect):
+                    if (
+                        abs(self.rect.left - brick.rect.right) < collision_treshold
+                        and self.x_speed < 0
+                    ):
+                        self.x_speed *= -1
+                    elif (
+                        abs(self.rect.right - brick.rect.left) < collision_treshold
+                        and self.x_speed > 0
+                    ):
+                        self.x_speed *= -1
+                    elif (
+                        abs((self.rect.top) - brick.rect.bottom) < collision_treshold
+                        and self.y_speed < 0
+                    ):
+                        self.y_speed *= -1
+                    elif (
+                        abs(self.rect.bottom - brick.rect.top) < collision_treshold
+                        and self.y_speed > 0
+                    ):
+                        self.y_speed *= -1
 
             # Move the ball
             self.x_pos += self.x_speed

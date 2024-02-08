@@ -9,7 +9,11 @@ class Brick:
         self.height = 20
         self.x_pos = x_pos
         self.y_pos = y_pos
+        self.rect = pygame.Rect(
+            self.x_pos, self.y_pos, self.width + 10, self.height + 10
+        )
 
+    def draw(self):
         pygame.draw.rect(
             self.display,
             "blue",
