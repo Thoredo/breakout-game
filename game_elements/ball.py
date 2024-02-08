@@ -67,21 +67,25 @@ class Ball:
                         and self.x_speed < 0
                     ):
                         self.x_speed *= -1
-                    elif (
+                        self.remove_brick(brick)
+                    if (
                         abs(self.rect.right - brick.rect.left) < collision_treshold
                         and self.x_speed > 0
                     ):
                         self.x_speed *= -1
-                    elif (
+                        self.remove_brick(brick)
+                    if (
                         abs((self.rect.top) - brick.rect.bottom) < collision_treshold
                         and self.y_speed < 0
                     ):
                         self.y_speed *= -1
-                    elif (
+                        self.remove_brick(brick)
+                    if (
                         abs(self.rect.bottom - brick.rect.top) < collision_treshold
                         and self.y_speed > 0
                     ):
                         self.y_speed *= -1
+                        self.remove_brick(brick)
 
             # Move the ball
             self.x_pos += self.x_speed
@@ -93,3 +97,10 @@ class Ball:
         self.on_paddle = True
         self.x_pos = self.paddle.x_pos + 40
         self.y_pos = BALL_START_Y
+
+    def remove_brick(self, brick):
+        brick.width = 0
+        brick.height = 0
+        brick.rect.width = 0
+        brick.rect.height = 0
+        self.level.update_bricks(self.level.bricks)

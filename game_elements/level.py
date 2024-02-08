@@ -22,3 +22,6 @@ class Level:
     def draw(self):
         for brick in self.bricks:
             brick.draw()
+
+    def update_bricks(self, bricks_list):
+        self.bricks = bricks_list
