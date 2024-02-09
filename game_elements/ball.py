@@ -21,6 +21,7 @@ class Ball:
         self.y_pos = BALL_START_Y
         self.x_speed = BALL_SPEED_X
         self.y_speed = BALL_SPEED_Y
+        self.collision_treshold = 5
 
     def draw_ball(self):
         pygame.draw.circle(
@@ -35,57 +36,12 @@ class Ball:
         )
 
     def move(self):
-        collision_treshold = 5
-
         if self.on_paddle == False:
-            # Check for collision with walls
-            if self.rect.left < self.ball_radius or self.rect.right > SCREEN_WIDTH:
-                self.x_speed *= -1
-
-            # Check for collision with top of screen
-            if self.rect.top < self.ball_radius:
-                self.y_speed *= -1
-
-            # Check for collision with bottom of screen
-            if self.rect.bottom > SCREEN_HEIGHT:
-                self.handle_missed_ball()
-
-            # Detect collision with paddle
-            if self.rect.colliderect(self.paddle):
-                # Check if colliding from top of paddle
-                if (
-                    abs(self.rect.bottom - self.paddle.rect.top) < collision_treshold
-                    and self.y_speed > 0
-                ):
-                    self.y_speed *= -1
-
-            # Detect collision with blocks
-            for brick in self.level.bricks:
-                if self.rect.colliderect(brick.rect):
-                    if (
-                        abs(self.rect.left - brick.rect.right) < collision_treshold
-                        and self.x_speed < 0
-                    ):
-                        self.x_speed *= -1
-                        self.remove_brick(brick)
-                    if (
-                        abs(self.rect.right - brick.rect.left) < collision_treshold
-                        and self.x_speed > 0
-                    ):
-                        self.x_speed *= -1
-                        self.remove_brick(brick)
-                    if (
-                        abs((self.rect.top) - brick.rect.bottom) < collision_treshold
-                        and self.y_speed < 0
-                    ):
-                        self.y_speed *= -1
-                        self.remove_brick(brick)
-                    if (
-                        abs(self.rect.bottom - brick.rect.top) < collision_treshold
-                        and self.y_speed > 0
-                    ):
-                        self.y_speed *= -1
-                        self.remove_brick(brick)
+            self.check_wall_collision()
+            self.check_top_collision()
+            self.check_bottom_collision()
+            self.check_paddle_collision()
+            self.check_collision_bricks()
 
             # Move the ball
             self.x_pos += self.x_speed
@@ -98,6 +54,17 @@ class Ball:
         self.x_pos = self.paddle.x_pos + 40
         self.y_pos = BALL_START_Y
 
+    def check_collision_bricks(self):
+        # Detect collision with blocks
+        for brick in self.level.bricks:
+            if self.rect.colliderect(brick.rect):
+                if self.brick_collision_left_right(brick):
+                    self.x_speed *= -1
+                    self.remove_brick(brick)
+                if self.brick_collision_top_bottom(brick):
+                    self.y_speed *= -1
+                    self.remove_brick(brick)
+
     def remove_brick(self, brick):
         brick.width = 0
         brick.height = 0
@@ -105,3 +72,40 @@ class Ball:
         brick.rect.height = 0
         self.game_instance.player_score += 10
         self.level.update_bricks(self.level.bricks)
+
+    def brick_collision_left_right(self, brick):
+        return (
+            abs(self.rect.left - brick.rect.right) < self.collision_treshold
+            and self.x_speed < 0
+        ) or (
+            abs(self.rect.right - brick.rect.left) < self.collision_treshold
+            and self.x_speed > 0
+        )
+
+    def brick_collision_top_bottom(self, brick):
+        return (
+            abs((self.rect.top) - brick.rect.bottom) < self.collision_treshold
+            and self.y_speed < 0
+        ) or (
+            abs(self.rect.bottom - brick.rect.top) < self.collision_treshold
+            and self.y_speed > 0
+        )
+
+    def check_wall_collision(self):
+        if self.rect.left < self.ball_radius or self.rect.right > SCREEN_WIDTH:
+            self.x_speed *= -1
+
+    def check_top_collision(self):
+        if self.rect.top < self.ball_radius:
+            self.y_speed *= -1
+
+    def check_bottom_collision(self):
+        if self.rect.bottom > SCREEN_HEIGHT:
+            self.handle_missed_ball()
+
+    def check_paddle_collision(self):
+        if self.rect.colliderect(self.paddle) and (
+            abs(self.rect.bottom - self.paddle.rect.top) < self.collision_treshold
+            and self.y_speed > 0
+        ):
+            self.y_speed *= -1
