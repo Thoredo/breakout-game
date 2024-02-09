@@ -60,17 +60,22 @@ class Ball:
             if self.rect.colliderect(brick.rect):
                 if self.brick_collision_left_right(brick):
                     self.x_speed *= -1
-                    self.remove_brick(brick)
+                    self.brick_collision(brick)
                 if self.brick_collision_top_bottom(brick):
                     self.y_speed *= -1
-                    self.remove_brick(brick)
+                    self.brick_collision(brick)
+
+    def brick_collision(self, brick):
+        brick.health -= 1
+        self.game_instance.player_score += 10
+        if brick.health == 0:
+            self.remove_brick(brick)
 
     def remove_brick(self, brick):
         brick.width = 0
         brick.height = 0
         brick.rect.width = 0
         brick.rect.height = 0
-        self.game_instance.player_score += 10
         self.level.update_bricks(self.level.bricks)
 
     def brick_collision_left_right(self, brick):
