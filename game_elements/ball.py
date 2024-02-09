@@ -70,7 +70,7 @@ class Ball:
         self.game_instance.player_score += 10
         if brick.health == 0:
             self.remove_brick(brick)
-            self.game_instance.boost_handler.check_boost_spawn()
+            self.game_instance.boost_handler.check_boost_spawn(brick)
 
     def remove_brick(self, brick):
         brick.width = 0

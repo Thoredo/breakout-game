@@ -21,6 +21,7 @@ class GameScreen:
         self.level.draw()
         self.draw_scoreboard()
         self.check_game_over()
+        self.game_instance.boost_handler.draw()
 
     def draw_scoreboard(self):
         level_text = self.scoreboard_font.render(

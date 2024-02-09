@@ -39,7 +39,7 @@ class Game:
         self.paddle = Paddle(self.screen)
         self.level = Level(self.screen, self.current_level)
         self.ball = Ball(self.screen, self.paddle, self, self.level)
-        self.boost_handler = BoostHandler()
+        self.boost_handler = BoostHandler(self.screen, self)
         self.game_screen = GameScreen(
             self.screen,
             self.game_state_manager,
