@@ -1,4 +1,11 @@
 import pygame
+import constants
+
+PLAYER_LIVES = constants.PLAYER_LIVES
+PADDLE_STARTING_X = constants.PADDLE_STARTING_X
+PADDLE_STARTING_Y = constants.PADDLE_STARTING_Y
+BALL_START_X = constants.BALL_START_X
+BALL_START_Y = constants.BALL_START_Y
 
 
 class MainMenu:
@@ -63,3 +70,24 @@ class MainMenu:
 
     def start_game(self):
         self.gamestatemanager.set_state("game")
+        self.reset_game()
+
+    def reset_game(self):
+        # Empty current bricks list
+        self.game_instance.level.bricks = []
+
+        # Create new bricks
+        self.game_instance.level.create_bricks()
+
+        # Reset stats
+        self.game_instance.player_lives = PLAYER_LIVES
+        self.game_instance.current_level = 1
+        self.game_instance.player_score = 0
+
+        # Move paddle back to center
+        self.game_instance.paddle.x_pos = PADDLE_STARTING_X
+        self.game_instance.paddle.y_pos = PADDLE_STARTING_Y
+
+        # Move ball back to center
+        self.game_instance.ball.x_pos = BALL_START_X
+        self.game_instance.ball.y_pos = BALL_START_Y

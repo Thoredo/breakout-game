@@ -11,7 +11,6 @@ class Level:
                             705, 770, 835, 900, 965]
         self.y_positions = [100, 125, 150, 175, 200, 225, 250, 275, 300]
         # fmt: on
-        self.create_bricks()
 
     def create_bricks(self):
         for y_pos in self.y_positions:
