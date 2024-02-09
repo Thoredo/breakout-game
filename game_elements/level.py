@@ -1,4 +1,5 @@
 from game_elements.brick import Brick
+import random
 
 
 class Level:
@@ -15,8 +16,15 @@ class Level:
     def create_bricks(self):
         for y_pos in self.y_positions:
             for x_pos in self.x_positions:
-                new_brick = Brick(self.display, 1, x_pos, y_pos)
-                self.bricks.append(new_brick)
+                spawn_chance = random.randint(1, 100)
+                if 40 > spawn_chance and self.current_level > 1:
+                    new_brick = Brick(
+                        self.display, self.current_level - 1, x_pos, y_pos
+                    )
+                    self.bricks.append(new_brick)
+                elif 95 > spawn_chance:
+                    new_brick = Brick(self.display, self.current_level, x_pos, y_pos)
+                    self.bricks.append(new_brick)
 
     def draw(self):
         for brick in self.bricks:
