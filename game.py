@@ -4,10 +4,11 @@ from game_interface.game_state_manager import GameStateManager
 from game_interface.instructions_page import InstructionsPage
 from game_interface.game_screen import GameScreen
 from game_interface.main_menu import MainMenu
+from game_interface.game_over_screen import GameOverScreen
 from game_elements.paddle import Paddle
 from game_elements.ball import Ball
 from game_elements.level import Level
-from game_interface.game_over_screen import GameOverScreen
+from game_elements.boosts import BoostHandler
 
 SCREEN_WIDTH, SCREEN_HEIGHT = constants.SCREEN_WIDTH, constants.SCREEN_HEIGHT
 FPS = constants.FPS
@@ -38,6 +39,7 @@ class Game:
         self.paddle = Paddle(self.screen)
         self.level = Level(self.screen, self.current_level)
         self.ball = Ball(self.screen, self.paddle, self, self.level)
+        self.boost_handler = BoostHandler()
         self.game_screen = GameScreen(
             self.screen,
             self.game_state_manager,
