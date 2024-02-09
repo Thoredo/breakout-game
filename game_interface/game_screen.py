@@ -20,10 +20,11 @@ class GameScreen:
         self.ball.draw_ball()
         self.level.draw()
         self.draw_scoreboard()
+        self.check_game_over()
 
     def draw_scoreboard(self):
         level_text = self.scoreboard_font.render(
-            f"Level: {self.level.current_level}", True, "white"
+            f"Level: {self.game_instance.current_level}", True, "white"
         )
         self.display.blit(level_text, (300, 10))
 
@@ -36,3 +37,7 @@ class GameScreen:
             f"Score: {self.game_instance.player_score}", True, "white"
         )
         self.display.blit(score_text, (600, 10))
+
+    def check_game_over(self):
+        if self.game_instance.player_lives == 0:
+            self.gamestatemanager.set_state("game over")

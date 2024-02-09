@@ -141,12 +141,12 @@ class InstructionsPage:
             450 < self.game_instance.mouse[0] < 650
             and 640 < self.game_instance.mouse[1] < 710
         ):
-            instructions_text = self.instruction_headers.render("Back", True, "red")
+            back_button_text = self.instruction_headers.render("Back", True, "red")
             if self.game_instance.mouse_clicked[0] == True:
                 self.open_main_menu()
         else:
-            instructions_text = self.instruction_headers.render("Back", True, "white")
-        self.display.blit(instructions_text, (480, 647))
+            back_button_text = self.instruction_headers.render("Back", True, "white")
+        self.display.blit(back_button_text, (480, 647))
 
     def open_main_menu(self):
         self.gamestatemanager.set_state("main menu")

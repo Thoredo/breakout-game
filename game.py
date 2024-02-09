@@ -7,10 +7,11 @@ from game_interface.main_menu import MainMenu
 from game_elements.paddle import Paddle
 from game_elements.ball import Ball
 from game_elements.level import Level
-
+from game_interface.game_over_screen import GameOverScreen
 
 SCREEN_WIDTH, SCREEN_HEIGHT = constants.SCREEN_WIDTH, constants.SCREEN_HEIGHT
 FPS = constants.FPS
+PLAYER_LIVES = constants.PLAYER_LIVES
 
 
 class Game:
@@ -22,14 +23,18 @@ class Game:
         self.is_running = True
         self.mouse = (0, 0)
         self.mouse_clicked = (False, False, False)
-        self.player_lives = 3
+        self.player_lives = PLAYER_LIVES
         self.player_score = 0
+        self.current_level = 1
 
         pygame.font.init()
 
         self.game_state_manager = GameStateManager("main menu")
         self.main_menu = MainMenu(self.screen, self.game_state_manager, self)
         self.instructions = InstructionsPage(self.screen, self.game_state_manager, self)
+        self.game_over_screen = GameOverScreen(
+            self.screen, self.game_state_manager, self
+        )
         self.paddle = Paddle(self.screen)
         self.level = Level(self.screen, 1)
         self.ball = Ball(self.screen, self.paddle, self, self.level)
@@ -46,6 +51,7 @@ class Game:
             "main menu": self.main_menu,
             "instructions": self.instructions,
             "game": self.game_screen,
+            "game over": self.game_over_screen,
         }
 
     def run(self):
