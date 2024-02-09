@@ -13,7 +13,7 @@ class Paddle:
         self.y_pos = 680
 
     def draw_paddle(self):
-        self.rect = pygame.Rect(self.x_pos, self.y_pos, self.width, self.height)
+        self.rect = pygame.Rect(self.x_pos, self.y_pos, self.width + 10, self.height)
         pygame.draw.rect(
             self.display,
             "yellow",
