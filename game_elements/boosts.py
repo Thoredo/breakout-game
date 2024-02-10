@@ -1,5 +1,6 @@
 import random
 import pygame
+import time
 
 
 class BoostHandler:
@@ -7,6 +8,7 @@ class BoostHandler:
         self.display = display
         self.game_instance = game_instance
         self.on_screen_boosts = []
+        self.active_boosts = []
 
     def check_boost_spawn(self, brick):
         spawn_number = random.randint(1, 10000)
@@ -16,7 +18,7 @@ class BoostHandler:
     def select_boost_type(self, brick):
         boost_type_number = random.randint(1, 1000)
 
-        if boost_type_number <= 150:
+        if boost_type_number <= 999:
             self.spawn_boost("extend paddle", "enlarge_paddle", brick)
         elif 150 < boost_type_number <= 300:
             self.spawn_boost("shrink paddle", "shrink_paddle", brick)
@@ -44,8 +46,9 @@ class BoostHandler:
 
                 self.boost_collision_paddle(boost_rect, boost)
 
-                print(len(self.on_screen_boosts))
                 boost["y_pos"] += 2
+
+        self.check_timer()
 
     def spawn_boost(self, type, image, brick):
         boost_type = type
@@ -66,4 +69,25 @@ class BoostHandler:
     def boost_collision_paddle(self, boost_rect, boost):
         # Detect Collision with paddle
         if boost_rect.colliderect(self.game_instance.paddle):
+            self.activate_boost(boost)
             self.on_screen_boosts.remove(boost)
+
+    def activate_boost(self, boost):
+        if boost["type"] == "extend paddle":
+            self.game_instance.paddle.width += 30
+            self.boost_timer(boost)
+
+    def boost_timer(self, boost):
+        time_started = time.time()
+        self.active_boosts.append({"time started": time_started, "boost": boost})
+
+    def check_timer(self):
+        for boost in self.active_boosts:
+            time_passed = time.time() - boost["time started"]
+            if time_passed > 30:
+                self.active_boosts.remove(boost)
+                self.deactivate_boost(boost["boost"])
+
+    def deactivate_boost(self, boost):
+        if boost["type"] == "extend paddle":
+            self.game_instance.paddle.width -= 30
