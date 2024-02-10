@@ -36,18 +36,15 @@ class BoostHandler:
     def draw(self):
         if len(self.on_screen_boosts) > 0:
             for boost in self.on_screen_boosts:
-                new_boost = pygame.image.load(boost["image"])
-                self.display.blit(new_boost, (boost["x_pos"], boost["y_pos"]))
-                boost_rect = pygame.Rect(boost["x_pos"], boost["y_pos"], 80, 10)
+                boost_rect = self.draw_boost(boost)
 
                 # Remove boost once its out of the screen
                 if boost["y_pos"] == 720:
                     self.on_screen_boosts.remove(boost)
 
-                # Detect Collision with paddle
-                if boost_rect.colliderect(self.game_instance.paddle):
-                    self.on_screen_boosts.remove(boost)
+                self.boost_collision_paddle(boost_rect, boost)
 
+                print(len(self.on_screen_boosts))
                 boost["y_pos"] += 2
 
     def spawn_boost(self, type, image, brick):
@@ -60,3 +57,13 @@ class BoostHandler:
             "y_pos": brick.y_pos,
         }
         self.on_screen_boosts.append(boost_info)
+
+    def draw_boost(self, boost):
+        new_boost = pygame.image.load(boost["image"])
+        self.display.blit(new_boost, (boost["x_pos"], boost["y_pos"]))
+        return pygame.Rect(boost["x_pos"], boost["y_pos"], 80, 10)
+
+    def boost_collision_paddle(self, boost_rect, boost):
+        # Detect Collision with paddle
+        if boost_rect.colliderect(self.game_instance.paddle):
+            self.on_screen_boosts.remove(boost)
