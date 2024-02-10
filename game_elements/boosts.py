@@ -22,11 +22,11 @@ class BoostHandler:
     def select_boost_type(self, brick):
         boost_type_number = random.randint(1, 1000)
 
-        if boost_type_number <= 1:
+        if boost_type_number <= 150:
             self.spawn_boost(EXTEND_TYPE, "enlarge_paddle", brick)
-        elif 1 < boost_type_number <= 2:
+        elif 150 < boost_type_number <= 300:
             self.spawn_boost(SHRINK_TYPE, "shrink_paddle", brick)
-        elif 2 < boost_type_number <= 999:
+        elif 300 < boost_type_number <= 450:
             self.spawn_boost(FASTER_TYPE, "speed_up_ball", brick)
         elif 450 < boost_type_number <= 600:
             self.spawn_boost("slower ball", "slow_down_ball", brick)

@@ -111,7 +111,7 @@ class Ball:
             self.game_instance.ball.x_speed = 3
             self.game_instance.ball.y_speed = -3
             for boost in self.game_instance.boost_handler.active_boosts:
-                boost["time passed"] = 31
+                self.game_instance.boost_handler.deactivate_boost(boost["boost"])
 
             self.game_instance.boost_handler.active_boosts = []
 
