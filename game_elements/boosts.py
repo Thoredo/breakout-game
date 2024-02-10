@@ -7,28 +7,17 @@ class BoostHandler:
         self.display = display
         self.game_instance = game_instance
         self.on_screen_boosts = []
-        self.boost_id = 1
 
     def check_boost_spawn(self, brick):
         spawn_number = random.randint(1, 10000)
         if spawn_number < 1000:
-            self.spawn_boost(brick)
+            self.select_boost_type(brick)
 
-    def spawn_boost(self, brick):
+    def select_boost_type(self, brick):
         boost_type_number = random.randint(1, 1000)
 
-        if boost_type_number <= 999:
-            boost_type = "extend paddle"
-            boost_image = "images/enlarge_paddle.png"
-            boost_info = {
-                "id": self.boost_id,
-                "type": boost_type,
-                "image": boost_image,
-                "x_pos": brick.x_pos,
-                "y_pos": brick.y_pos,
-            }
-            self.on_screen_boosts.append(boost_info)
-            self.boost_id += 1
+        if boost_type_number <= 150:
+            self.spawn_boost("extend paddle", "enlarge_paddle", brick)
         elif 150 < boost_type_number <= 300:
             print("smaller paddle")
         elif 300 < boost_type_number <= 450:
@@ -60,3 +49,14 @@ class BoostHandler:
                     self.on_screen_boosts.remove(boost)
 
                 boost["y_pos"] += 2
+
+    def spawn_boost(self, type, image, brick):
+        boost_type = type
+        boost_image = f"images/{image}.png"
+        boost_info = {
+            "type": boost_type,
+            "image": boost_image,
+            "x_pos": brick.x_pos,
+            "y_pos": brick.y_pos,
+        }
+        self.on_screen_boosts.append(boost_info)
