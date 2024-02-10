@@ -41,7 +41,7 @@ class InstructionsPage:
 
         # Add Live
         # ------------------------------------------------------------------#
-        add_live = pygame.image.load("images/add_live.png")
+        add_live = pygame.image.load("images/add_life.png")
         self.display.blit(add_live, (30, 180))
         add_live_text = self.instruction_small_text.render(
             "Gives the player an extra live", True, "white"

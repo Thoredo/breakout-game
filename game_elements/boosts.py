@@ -19,19 +19,19 @@ class BoostHandler:
         if boost_type_number <= 150:
             self.spawn_boost("extend paddle", "enlarge_paddle", brick)
         elif 150 < boost_type_number <= 300:
-            print("smaller paddle")
+            self.spawn_boost("shrink paddle", "shrink_paddle", brick)
         elif 300 < boost_type_number <= 450:
-            print("faster ball")
+            self.spawn_boost("faster ball", "speed_up_ball", brick)
         elif 450 < boost_type_number <= 600:
-            print("slower ball")
+            self.spawn_boost("slower ball", "slow_down_ball", brick)
         elif 600 < boost_type_number <= 750:
-            print("paddle shoots")
+            self.spawn_boost("paddle shoots", "paddle_shoot", brick)
         elif 750 < boost_type_number <= 900:
-            print("1.5 point boost")
+            self.spawn_boost("point boost", "increase_points_gained", brick)
         elif 900 < boost_type_number <= 950:
-            print("extra life")
+            self.spawn_boost("extra ball", "add_ball", brick)
         elif 950 < boost_type_number <= 1000:
-            print("extra life")
+            self.spawn_boost("extra life", "add_life", brick)
 
     def draw(self):
         if len(self.on_screen_boosts) > 0:
