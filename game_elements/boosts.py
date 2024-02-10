@@ -4,6 +4,7 @@ import time
 
 EXTEND_TYPE = "extend paddle"
 SHRINK_TYPE = "shrink paddle"
+FASTER_TYPE = "faster ball"
 
 
 class BoostHandler:
@@ -21,12 +22,12 @@ class BoostHandler:
     def select_boost_type(self, brick):
         boost_type_number = random.randint(1, 1000)
 
-        if boost_type_number <= 150:
+        if boost_type_number <= 1:
             self.spawn_boost(EXTEND_TYPE, "enlarge_paddle", brick)
-        elif 150 < boost_type_number <= 999:
+        elif 1 < boost_type_number <= 2:
             self.spawn_boost(SHRINK_TYPE, "shrink_paddle", brick)
-        elif 300 < boost_type_number <= 450:
-            self.spawn_boost("faster ball", "speed_up_ball", brick)
+        elif 2 < boost_type_number <= 999:
+            self.spawn_boost(FASTER_TYPE, "speed_up_ball", brick)
         elif 450 < boost_type_number <= 600:
             self.spawn_boost("slower ball", "slow_down_ball", brick)
         elif 600 < boost_type_number <= 750:
@@ -82,15 +83,27 @@ class BoostHandler:
         elif boost["type"] == SHRINK_TYPE:
             self.game_instance.paddle.width -= 15
             self.boost_timer(boost)
+        elif boost["type"] == FASTER_TYPE:
+            if self.game_instance.ball.x_speed > 0:
+                self.game_instance.ball.x_speed += 1
+            else:
+                self.game_instance.ball.x_speed -= 1
+            if self.game_instance.ball.y_speed > 0:
+                self.game_instance.ball.y_speed += 1
+            else:
+                self.game_instance.ball.y_speed -= 1
+            self.boost_timer(boost)
 
     def boost_timer(self, boost):
         time_started = time.time()
-        self.active_boosts.append({"time started": time_started, "boost": boost})
+        self.active_boosts.append(
+            {"time started": time_started, "boost": boost, "time passed": 0}
+        )
 
     def check_timer(self):
         for boost in self.active_boosts:
-            time_passed = time.time() - boost["time started"]
-            if time_passed > 30:
+            boost["time passed"] = time.time() - boost["time started"]
+            if boost["time passed"] > 30:
                 self.active_boosts.remove(boost)
                 self.deactivate_boost(boost["boost"])
 
@@ -99,3 +112,12 @@ class BoostHandler:
             self.game_instance.paddle.width -= 30
         elif boost["type"] == SHRINK_TYPE:
             self.game_instance.paddle.width += 15
+        elif boost["type"] == FASTER_TYPE:
+            if self.game_instance.ball.x_speed > 0:
+                self.game_instance.ball.x_speed -= 1
+            else:
+                self.game_instance.ball.x_speed += 1
+            if self.game_instance.ball.y_speed > 0:
+                self.game_instance.ball.y_speed -= 1
+            else:
+                self.game_instance.ball.y_speed += 1
