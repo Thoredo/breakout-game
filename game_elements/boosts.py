@@ -7,6 +7,8 @@ EXTEND_TYPE = "extend paddle"
 SHRINK_TYPE = "shrink paddle"
 FASTER_TYPE = "faster ball"
 SLOWER_TYPE = "slower ball"
+LIFE_TYPE = "extra life"
+POINTS_TYPE = "point boost"
 SPEED_BOOSTS_NUMBER = constants.SPEED_BOOSTS_NUMBER
 
 
@@ -40,7 +42,7 @@ class BoostHandler:
         elif 900 < boost_type_number <= 950:
             self.spawn_boost("extra ball", "add_ball", brick)
         elif 950 < boost_type_number <= 1000:
-            self.spawn_boost("extra life", "add_life", brick)
+            self.spawn_boost(LIFE_TYPE, "add_life", brick)
 
     def draw(self):
         if len(self.on_screen_boosts) > 0:
@@ -106,6 +108,8 @@ class BoostHandler:
             else:
                 self.game_instance.ball.y_speed += SPEED_BOOSTS_NUMBER
             self.boost_timer(boost)
+        elif boost["type"] == LIFE_TYPE and self.game_instance.player_lives < 5:
+            self.game_instance.player_lives += 1
 
     def boost_timer(self, boost):
         time_started = time.time()
