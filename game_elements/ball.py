@@ -108,12 +108,12 @@ class Ball:
     def check_bottom_collision(self):
         if self.rect.bottom > SCREEN_HEIGHT:
             self.handle_missed_ball()
-            self.game_instance.ball.x_speed = 3
-            self.game_instance.ball.y_speed = -3
             for boost in self.game_instance.boost_handler.active_boosts:
                 self.game_instance.boost_handler.deactivate_boost(boost["boost"])
 
             self.game_instance.boost_handler.active_boosts = []
+            self.game_instance.ball.x_speed = 3
+            self.game_instance.ball.y_speed = -3
 
     def check_paddle_collision(self):
         if self.rect.colliderect(self.paddle) and (

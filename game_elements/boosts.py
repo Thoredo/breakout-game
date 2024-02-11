@@ -1,10 +1,13 @@
 import random
 import pygame
 import time
+import constants
 
 EXTEND_TYPE = "extend paddle"
 SHRINK_TYPE = "shrink paddle"
 FASTER_TYPE = "faster ball"
+SLOWER_TYPE = "slower ball"
+SPEED_BOOSTS_NUMBER = constants.SPEED_BOOSTS_NUMBER
 
 
 class BoostHandler:
@@ -16,7 +19,7 @@ class BoostHandler:
 
     def check_boost_spawn(self, brick):
         spawn_number = random.randint(1, 10000)
-        if spawn_number < 1000:
+        if spawn_number < 1500:
             self.select_boost_type(brick)
 
     def select_boost_type(self, brick):
@@ -29,7 +32,7 @@ class BoostHandler:
         elif 300 < boost_type_number <= 450:
             self.spawn_boost(FASTER_TYPE, "speed_up_ball", brick)
         elif 450 < boost_type_number <= 600:
-            self.spawn_boost("slower ball", "slow_down_ball", brick)
+            self.spawn_boost(SLOWER_TYPE, "slow_down_ball", brick)
         elif 600 < boost_type_number <= 750:
             self.spawn_boost("paddle shoots", "paddle_shoot", brick)
         elif 750 < boost_type_number <= 900:
@@ -85,13 +88,23 @@ class BoostHandler:
             self.boost_timer(boost)
         elif boost["type"] == FASTER_TYPE:
             if self.game_instance.ball.x_speed > 0:
-                self.game_instance.ball.x_speed += 1
+                self.game_instance.ball.x_speed += SPEED_BOOSTS_NUMBER
             else:
-                self.game_instance.ball.x_speed -= 1
+                self.game_instance.ball.x_speed -= SPEED_BOOSTS_NUMBER
             if self.game_instance.ball.y_speed > 0:
-                self.game_instance.ball.y_speed += 1
+                self.game_instance.ball.y_speed += SPEED_BOOSTS_NUMBER
             else:
-                self.game_instance.ball.y_speed -= 1
+                self.game_instance.ball.y_speed -= SPEED_BOOSTS_NUMBER
+            self.boost_timer(boost)
+        elif boost["type"] == SLOWER_TYPE:
+            if self.game_instance.ball.x_speed > 0:
+                self.game_instance.ball.x_speed -= SPEED_BOOSTS_NUMBER
+            else:
+                self.game_instance.ball.x_speed += SPEED_BOOSTS_NUMBER
+            if self.game_instance.ball.y_speed > 0:
+                self.game_instance.ball.y_speed -= SPEED_BOOSTS_NUMBER
+            else:
+                self.game_instance.ball.y_speed += SPEED_BOOSTS_NUMBER
             self.boost_timer(boost)
 
     def boost_timer(self, boost):
@@ -114,10 +127,19 @@ class BoostHandler:
             self.game_instance.paddle.width += 15
         elif boost["type"] == FASTER_TYPE:
             if self.game_instance.ball.x_speed > 0:
-                self.game_instance.ball.x_speed -= 1
+                self.game_instance.ball.x_speed -= SPEED_BOOSTS_NUMBER
             else:
-                self.game_instance.ball.x_speed += 1
+                self.game_instance.ball.x_speed += SPEED_BOOSTS_NUMBER
             if self.game_instance.ball.y_speed > 0:
-                self.game_instance.ball.y_speed -= 1
+                self.game_instance.ball.y_speed -= SPEED_BOOSTS_NUMBER
             else:
-                self.game_instance.ball.y_speed += 1
+                self.game_instance.ball.y_speed += SPEED_BOOSTS_NUMBER
+        elif boost["type"] == SLOWER_TYPE:
+            if self.game_instance.ball.x_speed > 0:
+                self.game_instance.ball.x_speed += SPEED_BOOSTS_NUMBER
+            else:
+                self.game_instance.ball.x_speed -= SPEED_BOOSTS_NUMBER
+            if self.game_instance.ball.y_speed > 0:
+                self.game_instance.ball.y_speed += SPEED_BOOSTS_NUMBER
+            else:
+                self.game_instance.ball.y_speed -= SPEED_BOOSTS_NUMBER
