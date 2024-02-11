@@ -6,6 +6,7 @@ BALL_SPEED_X = constants.BALL_SPEED_X
 BALL_SPEED_Y = constants.BALL_SPEED_Y
 BALL_START_X = constants.BALL_START_X
 BALL_START_Y = constants.BALL_START_Y
+POINTS_PER_HIT = constants.POINTS_PER_HIT
 
 
 class Ball:
@@ -22,6 +23,7 @@ class Ball:
         self.x_speed = BALL_SPEED_X
         self.y_speed = BALL_SPEED_Y
         self.collision_treshold = 5
+        self.points_gained = POINTS_PER_HIT
 
     def draw_ball(self):
         pygame.draw.circle(
@@ -67,7 +69,7 @@ class Ball:
 
     def brick_collision(self, brick):
         brick.health -= 1
-        self.game_instance.player_score += 10
+        self.game_instance.player_score += self.points_gained
         if brick.health == 0:
             self.remove_brick(brick)
             self.game_instance.boost_handler.check_boost_spawn(brick)
