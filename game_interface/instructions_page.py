@@ -2,7 +2,32 @@ import pygame
 
 
 class InstructionsPage:
+    """
+    Represents the instructions screen
+
+    Attributes
+    ----------
+    display (pygame.Surface): The Pygame surface representing the game window.
+    game_state_manager (GameStateManager): Instance of GameStateManager class
+                                        managing the current window state.
+    game_instance (Game): Instance of the main Game class, allowing access to
+                                        game state and components.
+    instruction_headers (pygame.font.Font): The font used for the headers on
+                                        the instructions page.
+    instruction_small_text (pygame.font.Font): The font used for the small text
+                                        on the instructions page.
+    """
+
     def __init__(self, display, game_state_manager, game_instance):
+        """
+        Initializes the InstructionsPage class.
+
+        Parameters
+        ----------
+        display (pygame.Surface): The Pygame surface representing the game window.
+        game_state_manager (GameStateManager): Instance of GameStateManager class managing the current window state.
+        game_instance (Game): Instance of the main Game class, allowing access to game state and components.
+        """
         self.display = display
         self.gamestatemanager = game_state_manager
         self.game_instance = game_instance
@@ -10,10 +35,17 @@ class InstructionsPage:
         self.instruction_small_text = pygame.font.SysFont("Arial", 22, bold=True)
 
     def run(self):
+        """
+        Fills the screen with a black background to overwrite previous elements,
+        then calls the InstructionsPage.draw() method
+        """
         self.display.fill("black")
         self.draw()
 
     def draw(self):
+        """
+        Creates the instruction page components.
+        """
         # Boost legend
         # ------------------------------------------------------------------#
         boost_legend_header = self.instruction_headers.render(
@@ -149,4 +181,8 @@ class InstructionsPage:
         self.display.blit(back_button_text, (480, 647))
 
     def open_main_menu(self):
+        """
+        Sets the current game state to 'main menu' which causes the
+        main menu to open.
+        """
         self.gamestatemanager.set_state("main menu")
