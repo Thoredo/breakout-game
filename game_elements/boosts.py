@@ -11,6 +11,7 @@ SLOWER_TYPE = "slower ball"
 LIFE_TYPE = "extra life"
 POINTS_TYPE = "point boost"
 BALL_TYPE = "extra ball"
+SHOOT_TYPE = "paddle shoots"
 SPEED_BOOSTS_NUMBER = constants.SPEED_BOOSTS_NUMBER
 
 
@@ -29,9 +30,8 @@ class BoostHandler:
     def select_boost_type(self, brick):
         boost_type_number = random.randint(1, 1000)
 
-        if boost_type_number <= 999:
-            self.spawn_boost(BALL_TYPE, "add_ball", brick)
-            # self.spawn_boost(EXTEND_TYPE, "enlarge_paddle", brick)
+        if boost_type_number <= 150:
+            self.spawn_boost(EXTEND_TYPE, "enlarge_paddle", brick)
         elif 150 < boost_type_number <= 300:
             self.spawn_boost(SHRINK_TYPE, "shrink_paddle", brick)
         elif 300 < boost_type_number <= 450:
@@ -39,7 +39,7 @@ class BoostHandler:
         elif 450 < boost_type_number <= 600:
             self.spawn_boost(SLOWER_TYPE, "slow_down_ball", brick)
         elif 600 < boost_type_number <= 750:
-            self.spawn_boost("paddle shoots", "paddle_shoot", brick)
+            self.spawn_boost(SHOOT_TYPE, "paddle_shoot", brick)
         elif 750 < boost_type_number <= 900:
             self.spawn_boost(POINTS_TYPE, "increase_points_gained", brick)
         elif 900 < boost_type_number <= 950:
@@ -86,50 +86,19 @@ class BoostHandler:
 
     def activate_boost(self, boost):
         if boost["type"] == EXTEND_TYPE:
-            self.game_instance.paddle.width += 30
-            self.boost_timer(boost)
+            self.start_extend_boost(boost)
         elif boost["type"] == SHRINK_TYPE:
-            self.game_instance.paddle.width -= 15
-            self.boost_timer(boost)
+            self.start_shrink_boost(boost)
         elif boost["type"] == FASTER_TYPE:
-            if self.game_instance.ball.x_speed > 0:
-                self.game_instance.ball.x_speed += SPEED_BOOSTS_NUMBER
-            else:
-                self.game_instance.ball.x_speed -= SPEED_BOOSTS_NUMBER
-            if self.game_instance.ball.y_speed > 0:
-                self.game_instance.ball.y_speed += SPEED_BOOSTS_NUMBER
-            else:
-                self.game_instance.ball.y_speed -= SPEED_BOOSTS_NUMBER
-            self.boost_timer(boost)
+            self.start_faster_boost(boost)
         elif boost["type"] == SLOWER_TYPE:
-            if self.game_instance.ball.x_speed > 0:
-                self.game_instance.ball.x_speed -= SPEED_BOOSTS_NUMBER
-            else:
-                self.game_instance.ball.x_speed += SPEED_BOOSTS_NUMBER
-            if self.game_instance.ball.y_speed > 0:
-                self.game_instance.ball.y_speed -= SPEED_BOOSTS_NUMBER
-            else:
-                self.game_instance.ball.y_speed += SPEED_BOOSTS_NUMBER
-            self.boost_timer(boost)
+            self.start_slower_boost(boost)
         elif boost["type"] == LIFE_TYPE and self.game_instance.player_lives < 5:
-            self.game_instance.player_lives += 1
+            self.start_life_boost()
         elif boost["type"] == POINTS_TYPE:
-            self.game_instance.ball.points_gained = 15
-            self.boost_timer(boost)
+            self.start_points_boost(boost)
         elif boost["type"] == BALL_TYPE:
-            if len(self.game_instance.active_balls) < 3:
-                self.new_ball = Ball(
-                    self.display,
-                    self.game_instance.paddle,
-                    self.game_instance,
-                    self.game_instance.level,
-                    ball_speed_x=self.game_instance.active_balls[0].x_speed * -1,
-                    ball_speed_y=-3,
-                    x_pos=self.game_instance.active_balls[0].x_pos,
-                    y_pos=self.game_instance.active_balls[0].y_pos,
-                    on_paddle=False,
-                )
-                self.game_instance.active_balls.append(self.new_ball)
+            self.start_ball_boost()
 
     def boost_timer(self, boost):
         time_started = time.time()
@@ -146,26 +115,93 @@ class BoostHandler:
 
     def deactivate_boost(self, boost):
         if boost["type"] == EXTEND_TYPE:
-            self.game_instance.paddle.width -= 30
+            self.stop_extend_boost()
         elif boost["type"] == SHRINK_TYPE:
-            self.game_instance.paddle.width += 15
+            self.stop_shrink_boost()
         elif boost["type"] == FASTER_TYPE:
-            if self.game_instance.ball.x_speed > 0:
-                self.game_instance.ball.x_speed -= SPEED_BOOSTS_NUMBER
-            else:
-                self.game_instance.ball.x_speed += SPEED_BOOSTS_NUMBER
-            if self.game_instance.ball.y_speed > 0:
-                self.game_instance.ball.y_speed -= SPEED_BOOSTS_NUMBER
-            else:
-                self.game_instance.ball.y_speed += SPEED_BOOSTS_NUMBER
+            self.stop_faster_boost()
         elif boost["type"] == SLOWER_TYPE:
-            if self.game_instance.ball.x_speed > 0:
-                self.game_instance.ball.x_speed += SPEED_BOOSTS_NUMBER
-            else:
-                self.game_instance.ball.x_speed -= SPEED_BOOSTS_NUMBER
-            if self.game_instance.ball.y_speed > 0:
-                self.game_instance.ball.y_speed += SPEED_BOOSTS_NUMBER
-            else:
-                self.game_instance.ball.y_speed -= SPEED_BOOSTS_NUMBER
+            self.stop_slower_boost()
         elif boost["type"] == POINTS_TYPE:
-            self.game_instance.ball.points_gained = 10
+            self.stop_points_boost()
+
+    def start_extend_boost(self, boost):
+        self.game_instance.paddle.width += 30
+        self.boost_timer(boost)
+
+    def stop_extend_boost(self):
+        self.game_instance.paddle.width -= 30
+
+    def start_shrink_boost(self, boost):
+        self.game_instance.paddle.width -= 15
+        self.boost_timer(boost)
+
+    def stop_shrink_boost(self):
+        self.game_instance.paddle.width += 15
+
+    def start_faster_boost(self, boost):
+        if self.game_instance.ball.x_speed > 0:
+            self.game_instance.ball.x_speed += SPEED_BOOSTS_NUMBER
+        else:
+            self.game_instance.ball.x_speed -= SPEED_BOOSTS_NUMBER
+        if self.game_instance.ball.y_speed > 0:
+            self.game_instance.ball.y_speed += SPEED_BOOSTS_NUMBER
+        else:
+            self.game_instance.ball.y_speed -= SPEED_BOOSTS_NUMBER
+        self.boost_timer(boost)
+
+    def stop_faster_boost(self):
+        if self.game_instance.ball.x_speed > 0:
+            self.game_instance.ball.x_speed -= SPEED_BOOSTS_NUMBER
+        else:
+            self.game_instance.ball.x_speed += SPEED_BOOSTS_NUMBER
+        if self.game_instance.ball.y_speed > 0:
+            self.game_instance.ball.y_speed -= SPEED_BOOSTS_NUMBER
+        else:
+            self.game_instance.ball.y_speed += SPEED_BOOSTS_NUMBER
+
+    def start_slower_boost(self, boost):
+        if self.game_instance.ball.x_speed > 0:
+            self.game_instance.ball.x_speed -= SPEED_BOOSTS_NUMBER
+        else:
+            self.game_instance.ball.x_speed += SPEED_BOOSTS_NUMBER
+        if self.game_instance.ball.y_speed > 0:
+            self.game_instance.ball.y_speed -= SPEED_BOOSTS_NUMBER
+        else:
+            self.game_instance.ball.y_speed += SPEED_BOOSTS_NUMBER
+        self.boost_timer(boost)
+
+    def stop_slower_boost(self):
+        if self.game_instance.ball.x_speed > 0:
+            self.game_instance.ball.x_speed += SPEED_BOOSTS_NUMBER
+        else:
+            self.game_instance.ball.x_speed -= SPEED_BOOSTS_NUMBER
+        if self.game_instance.ball.y_speed > 0:
+            self.game_instance.ball.y_speed += SPEED_BOOSTS_NUMBER
+        else:
+            self.game_instance.ball.y_speed -= SPEED_BOOSTS_NUMBER
+
+    def start_life_boost(self):
+        self.game_instance.player_lives += 1
+
+    def start_points_boost(self, boost):
+        self.game_instance.ball.points_gained = 15
+        self.boost_timer(boost)
+
+    def stop_points_boost(self):
+        self.game_instance.ball.points_gained = 10
+
+    def start_ball_boost(self):
+        if len(self.game_instance.active_balls) < 3:
+            self.new_ball = Ball(
+                self.display,
+                self.game_instance.paddle,
+                self.game_instance,
+                self.game_instance.level,
+                ball_speed_x=self.game_instance.active_balls[0].x_speed * -1,
+                ball_speed_y=-3,
+                x_pos=self.game_instance.active_balls[0].x_pos,
+                y_pos=self.game_instance.active_balls[0].y_pos,
+                on_paddle=False,
+            )
+            self.game_instance.active_balls.append(self.new_ball)
