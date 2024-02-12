@@ -16,7 +16,36 @@ PLAYER_LIVES = constants.PLAYER_LIVES
 
 
 class Game:
+    """
+    Handles the games GUI
+
+    Attributes
+    ----------
+    screen(pygame.display): Creates the pygame window.
+    clock(pygame.clock): Pygame clock used for controlling frame rate.
+    is_running(bool): Used to see if the entire game / window is active.
+    mouse(tuple): Used to see where in the screen the mouse is.
+    mouse_clicked(tuple): Used to see the status of the 3 mouse buttons.
+    player_lives(int): Keeps track of the number of lives the player has.
+    player_score(int): Keeps track of the players score.
+    current_level(int): Keeps track of what level the player is in.
+    active_balls(list): List of active balls on screen
+    game_state_manager(GameStateManager): Instance of GameStateManager class
+                                        manages the current window of the game.
+    main_menu(MainMenu): Instance for the main menu screen.
+    instructions(Instructions): Instance for the instructions screen.
+    game_over_screen(GameOverScreen): Instance for the game over screen.
+    paddle(Paddle): Instance of the paddle object.
+    level(Level): Instance of the level object.
+    ball(Ball): Instance of the ball object.
+    boost_handler(BoostHandler): Instance of the boost handler object.
+    game_screen(GameScreen): Instance for the game screen.
+    """
+
     def __init__(self):
+        """
+        Initializes the Game class.
+        """
         pygame.init()
         self.screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
         pygame.display.set_caption("Breakout")
@@ -59,6 +88,14 @@ class Game:
         }
 
     def run(self):
+        """
+        Contains while loop that runs all game mechanics.
+        Calls handle_events and handle_key_presses.
+        Calls the move method of each active balls.
+        Calls run method of the currently active page.
+        Gets the current mouse position.
+        Gets status of what mouse buttons are clicked.
+        """
         while self.is_running:
             self.handle_events()
             self.handle_key_presses()
@@ -71,11 +108,17 @@ class Game:
             pygame.display.update()
 
     def handle_events(self):
+        """
+        Closes the game when the player presses the close button.
+        """
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 self.is_running = False
 
     def handle_key_presses(self):
+        """
+        Handles the keys the player presses.
+        """
         keys = pygame.key.get_pressed()
 
         if keys[pygame.K_LEFT]:
