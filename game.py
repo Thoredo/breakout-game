@@ -27,6 +27,7 @@ class Game:
         self.player_lives = PLAYER_LIVES
         self.player_score = 0
         self.current_level = 1
+        self.active_balls = []
 
         pygame.font.init()
 
@@ -39,6 +40,7 @@ class Game:
         self.paddle = Paddle(self.screen)
         self.level = Level(self.screen, self.current_level)
         self.ball = Ball(self.screen, self.paddle, self, self.level)
+        self.active_balls.append(self.ball)
         self.boost_handler = BoostHandler(self.screen, self)
         self.game_screen = GameScreen(
             self.screen,
@@ -60,7 +62,8 @@ class Game:
         while self.is_running:
             self.handle_events()
             self.handle_key_presses()
-            self.ball.move()
+            for ball in self.active_balls:
+                ball.move()
             self.clock.tick(FPS)
             self.states[self.game_state_manager.get_state()].run()
             self.mouse = pygame.mouse.get_pos()
@@ -77,11 +80,11 @@ class Game:
 
         if keys[pygame.K_LEFT]:
             self.paddle.move_left()
-            if self.ball.on_paddle:
-                self.ball.x_pos = self.paddle.x_pos + 40
+            if self.active_balls[0].on_paddle:
+                self.active_balls[0].x_pos = self.paddle.x_pos + 40
         if keys[pygame.K_RIGHT]:
             self.paddle.move_right()
-            if self.ball.on_paddle:
-                self.ball.x_pos = self.paddle.x_pos + 40
+            if self.active_balls[0].on_paddle:
+                self.active_balls[0].x_pos = self.paddle.x_pos + 40
         if keys[pygame.K_UP]:
-            self.ball.on_paddle = False
+            self.active_balls[0].on_paddle = False

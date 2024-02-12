@@ -2,6 +2,7 @@ import random
 import pygame
 import time
 import constants
+from game_elements.ball import Ball
 
 EXTEND_TYPE = "extend paddle"
 SHRINK_TYPE = "shrink paddle"
@@ -9,6 +10,7 @@ FASTER_TYPE = "faster ball"
 SLOWER_TYPE = "slower ball"
 LIFE_TYPE = "extra life"
 POINTS_TYPE = "point boost"
+BALL_TYPE = "extra ball"
 SPEED_BOOSTS_NUMBER = constants.SPEED_BOOSTS_NUMBER
 
 
@@ -28,7 +30,8 @@ class BoostHandler:
         boost_type_number = random.randint(1, 1000)
 
         if boost_type_number <= 999:
-            self.spawn_boost(EXTEND_TYPE, "enlarge_paddle", brick)
+            self.spawn_boost(BALL_TYPE, "add_ball", brick)
+            # self.spawn_boost(EXTEND_TYPE, "enlarge_paddle", brick)
         elif 150 < boost_type_number <= 300:
             self.spawn_boost(SHRINK_TYPE, "shrink_paddle", brick)
         elif 300 < boost_type_number <= 450:
@@ -40,7 +43,7 @@ class BoostHandler:
         elif 750 < boost_type_number <= 900:
             self.spawn_boost(POINTS_TYPE, "increase_points_gained", brick)
         elif 900 < boost_type_number <= 950:
-            self.spawn_boost("extra ball", "add_ball", brick)
+            self.spawn_boost(BALL_TYPE, "add_ball", brick)
         elif 950 < boost_type_number <= 1000:
             self.spawn_boost(LIFE_TYPE, "add_life", brick)
 
@@ -113,6 +116,20 @@ class BoostHandler:
         elif boost["type"] == POINTS_TYPE:
             self.game_instance.ball.points_gained = 15
             self.boost_timer(boost)
+        elif boost["type"] == BALL_TYPE:
+            if len(self.game_instance.active_balls) < 3:
+                self.new_ball = Ball(
+                    self.display,
+                    self.game_instance.paddle,
+                    self.game_instance,
+                    self.game_instance.level,
+                    ball_speed_x=self.game_instance.active_balls[0].x_speed * -1,
+                    ball_speed_y=-3,
+                    x_pos=self.game_instance.active_balls[0].x_pos,
+                    y_pos=self.game_instance.active_balls[0].y_pos,
+                    on_paddle=False,
+                )
+                self.game_instance.active_balls.append(self.new_ball)
 
     def boost_timer(self, boost):
         time_started = time.time()

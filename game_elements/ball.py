@@ -10,20 +10,34 @@ POINTS_PER_HIT = constants.POINTS_PER_HIT
 
 
 class Ball:
-    def __init__(self, display, paddle, game_instance, level):
+    def __init__(
+        self,
+        display,
+        paddle,
+        game_instance,
+        level,
+        ball_speed_x=BALL_SPEED_X,
+        ball_speed_y=BALL_SPEED_Y,
+        x_pos=BALL_START_X,
+        y_pos=BALL_START_Y,
+        on_paddle=True,
+    ):
         self.display = display
         self.paddle = paddle
         self.game_instance = game_instance
         self.level = level
 
         self.ball_radius = 10
-        self.on_paddle = True
-        self.x_pos = BALL_START_X
-        self.y_pos = BALL_START_Y
-        self.x_speed = BALL_SPEED_X
-        self.y_speed = BALL_SPEED_Y
+        self.on_paddle = on_paddle
+        self.x_pos = x_pos
+        self.y_pos = y_pos
+        self.x_speed = ball_speed_x
+        self.y_speed = ball_speed_y
         self.collision_treshold = 5
         self.points_gained = POINTS_PER_HIT
+        self.rect = pygame.Rect(
+            self.x_pos, self.y_pos, self.ball_radius, self.ball_radius
+        )
 
     def draw_ball(self):
         pygame.draw.circle(
@@ -51,10 +65,9 @@ class Ball:
 
     def handle_missed_ball(self):
         self.game_instance.player_lives -= 1
-
-        self.on_paddle = True
-        self.x_pos = self.paddle.x_pos + 40
-        self.y_pos = BALL_START_Y
+        self.game_instance.active_balls[0].on_paddle = True
+        self.game_instance.active_balls[0].x_pos = self.paddle.x_pos + 40
+        self.game_instance.active_balls[0].y_pos = BALL_START_Y
 
     def check_collision_bricks(self):
         # Detect collision with blocks
@@ -109,13 +122,16 @@ class Ball:
 
     def check_bottom_collision(self):
         if self.rect.bottom > SCREEN_HEIGHT:
-            self.handle_missed_ball()
-            for boost in self.game_instance.boost_handler.active_boosts:
-                self.game_instance.boost_handler.deactivate_boost(boost["boost"])
+            if len(self.game_instance.active_balls) > 1:
+                self.game_instance.active_balls.remove(self)
+            else:
+                self.handle_missed_ball()
+                for boost in self.game_instance.boost_handler.active_boosts:
+                    self.game_instance.boost_handler.deactivate_boost(boost["boost"])
 
-            self.game_instance.boost_handler.active_boosts = []
-            self.game_instance.ball.x_speed = 3
-            self.game_instance.ball.y_speed = -3
+                self.game_instance.boost_handler.active_boosts = []
+                self.game_instance.active_balls[0].x_speed = 3
+                self.game_instance.active_balls[0].y_speed = -3
 
     def check_paddle_collision(self):
         if self.rect.colliderect(self.paddle) and (

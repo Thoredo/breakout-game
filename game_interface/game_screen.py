@@ -17,7 +17,8 @@ class GameScreen:
 
     def draw(self):
         self.paddle.draw_paddle()
-        self.ball.draw_ball()
+        for ball in self.game_instance.active_balls:
+            ball.draw_ball()
         self.level.draw()
         self.draw_scoreboard()
         self.check_game_over()
