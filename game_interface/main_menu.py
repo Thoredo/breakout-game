@@ -9,17 +9,45 @@ BALL_START_Y = constants.BALL_START_Y
 
 
 class MainMenu:
+    """
+    Represents the main menu screen
+
+    Attributes
+    ----------
+    display (pygame.Surface): The Pygame surface representing the game window.
+    game_state_manager (GameStateManager): Instance of GameStateManager class managing the current window state.
+    game_instance (Game): Instance of the main Game class, allowing access to game state and components.
+    menu_font (pygame.font.Font): The font used for rendering menu text.
+    """
+
     def __init__(self, display, game_state_manager, game_instance):
+        """
+        Initializes the MainMenu class.
+
+        Parameters
+        ----------
+        display (pygame.Surface): The Pygame surface representing the game window.
+        game_state_manager (GameStateManager): Instance of GameStateManager class managing the current window state.
+        game_instance (Game): Instance of the main Game class, allowing access to game state and components.
+        """
         self.display = display
         self.gamestatemanager = game_state_manager
         self.game_instance = game_instance
         self.menu_font = pygame.font.SysFont("Arial", 30, bold=True)
 
     def run(self):
+        """
+        Fills the screen with a black background to overwrite previous elements,
+        then calls the MainMenu.draw() method
+        """
         self.display.fill("black")
         self.draw()
 
     def draw(self):
+        """
+        Creates the main menu components. Also handles user interaction with
+        these buttons.
+        """
         logo = pygame.image.load("images/logo.png")
         self.display.blit(logo, (273, 145))
 
@@ -63,16 +91,30 @@ class MainMenu:
         self.display.blit(quit_text, (515, 426))
 
     def open_instructions(self):
+        """
+        Sets the current game state to 'instructions' which causes the
+        instructions page to open.
+        """
         self.gamestatemanager.set_state("instructions")
 
     def quit_game(self):
+        """
+        Closes the game when the quit button in the menu gets clicked.
+        """
         self.game_instance.is_running = False
 
     def start_game(self):
+        """
+        Sets the current game state to 'game' which causes the game to start.
+        Also calls the method reset_game().
+        """
         self.gamestatemanager.set_state("game")
         self.reset_game()
 
     def reset_game(self):
+        """
+        Resets all game elements when the play button gets pressed.
+        """
         # Empty current bricks list
         self.game_instance.level.bricks = []
 
