@@ -2,7 +2,29 @@ import pygame
 
 
 class GameOverScreen:
+    """
+    Represents the game over screen.
+
+    Attributes
+    ----------
+    display (pygame.Surface): The Pygame surface representing the game window.
+    game_state_manager (GameStateManager): Instance of GameStateManager class managing the current window state.
+    game_instance (Game): Instance of the main Game class, allowing access to game state and components.
+    game_over_font (pygame.font.Font): The font used for the game over text.
+    stats_font (pygame.font.Font): The font used for the stats on screen.
+    back_button_font (pygame.font.Font): The font used for the back button.
+    """
+
     def __init__(self, display, game_state_manager, game_instance):
+        """
+        Initializes the GameOverClass class.
+
+        Parameters
+        ----------
+        display (pygame.Surface): The Pygame surface representing the game window.
+        game_state_manager (GameStateManager): Instance of GameStateManager class managing the current window state.
+        game_instance (Game): Instance of the main Game class, allowing access to game state and components.
+        """
         self.display = display
         self.gamestatemanager = game_state_manager
         self.game_instance = game_instance
@@ -11,10 +33,17 @@ class GameOverScreen:
         self.back_button_font = pygame.font.SysFont("Arial", 30, bold=True)
 
     def run(self):
+        """
+        Fills the screen with a black background to overwrite previous elements,
+        then calls the GameOverScreen.draw() method
+        """
         self.display.fill("black")
         self.draw()
 
     def draw(self):
+        """
+        Creates the game over screen components
+        """
         game_over_text = self.game_over_font.render("Game Over", True, "white")
         self.display.blit(game_over_text, (340, 200))
 
@@ -41,4 +70,8 @@ class GameOverScreen:
         self.display.blit(back_button_text, (530, 647))
 
     def open_main_menu(self):
+        """
+        Sets the current game state to 'main menu' which causes the
+        main menu to open.
+        """
         self.gamestatemanager.set_state("main menu")

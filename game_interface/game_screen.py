@@ -53,14 +53,14 @@ class GameScreen:
         - the bricks belonging to the level
         - any active boosts
 
-        Also calls check_game_over()
+        Also calls game_over_check()
         """
         self.paddle.draw_paddle()
         for ball in self.game_instance.active_balls:
             ball.draw_ball()
         self.level.draw()
         self.draw_scoreboard()
-        self.check_game_over()
+        self.game_over_check()
         self.game_instance.boost_handler.draw()
 
     def draw_scoreboard(self):
@@ -82,7 +82,7 @@ class GameScreen:
         )
         self.display.blit(score_text, (600, 10))
 
-    def check_game_over(self):
+    def game_over_check(self):
         """
         Sets the game state to game over once the player is out of lives.
         """
