@@ -84,3 +84,6 @@ class Paddle:
         if time_passed > 0.5:
             self.gun_cooldown = False
             self.timer_active = False
+
+    def remove_gun(self):
+        self.gun_active = False
