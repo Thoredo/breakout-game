@@ -30,8 +30,9 @@ class BoostHandler:
     def select_boost_type(self, brick):
         boost_type_number = random.randint(1, 1000)
 
-        if boost_type_number <= 150:
-            self.spawn_boost(EXTEND_TYPE, "enlarge_paddle", brick)
+        if boost_type_number <= 999:
+            self.spawn_boost(SHOOT_TYPE, "paddle_shoot", brick)
+            # self.spawn_boost(EXTEND_TYPE, "enlarge_paddle", brick)
         elif 150 < boost_type_number <= 300:
             self.spawn_boost(SHRINK_TYPE, "shrink_paddle", brick)
         elif 300 < boost_type_number <= 450:
@@ -99,6 +100,8 @@ class BoostHandler:
             self.start_points_boost(boost)
         elif boost["type"] == BALL_TYPE:
             self.start_ball_boost()
+        elif boost["type"] == SHOOT_TYPE:
+            self.start_shoot_boost()
 
     def boost_timer(self, boost):
         time_started = time.time()
@@ -205,3 +208,6 @@ class BoostHandler:
                 on_paddle=False,
             )
             self.game_instance.active_balls.append(self.new_ball)
+
+    def start_shoot_boost(self):
+        self.game_instance.paddle.activate_gun()

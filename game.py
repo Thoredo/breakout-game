@@ -131,3 +131,5 @@ class Game:
                 self.active_balls[0].x_pos = self.paddle.x_pos + 40
         if keys[pygame.K_UP]:
             self.active_balls[0].on_paddle = False
+        if keys[pygame.K_SPACE]:
+            self.paddle.shoot_gun()
