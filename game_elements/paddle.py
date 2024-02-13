@@ -9,8 +9,9 @@ PADDLE_STARTING_Y = constants.PADDLE_STARTING_Y
 
 
 class Paddle:
-    def __init__(self, display):
+    def __init__(self, display, game_instance):
         self.display = display
+        self.game_instance = game_instance
         self.width = 80
         self.height = 10
         self.x_pos = PADDLE_STARTING_X
@@ -64,7 +65,9 @@ class Paddle:
         if self.gun_active == True and self.gun_cooldown == False:
 
             gun_top = self.y_pos - (self.gun_height * 2)
-            new_bullet = Bullet(self.display, self.paddle_middle, gun_top)
+            new_bullet = Bullet(
+                self.display, self.paddle_middle, gun_top, self.game_instance
+            )
             self.bullets.append(new_bullet)
             self.gun_cooldown = True
         if not self.timer_active:

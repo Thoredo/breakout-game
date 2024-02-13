@@ -66,7 +66,7 @@ class Game:
         self.game_over_screen = GameOverScreen(
             self.screen, self.game_state_manager, self
         )
-        self.paddle = Paddle(self.screen)
+        self.paddle = Paddle(self.screen, self)
         self.level = Level(self.screen, self.current_level)
         self.ball = Ball(self.screen, self.paddle, self, self.level)
         self.active_balls.append(self.ball)
