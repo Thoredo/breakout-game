@@ -143,3 +143,6 @@ class Paddle:
         Deactivates the gun power-up.
         """
         self.gun_active = False
+
+    def remove_bullets(self):
+        self.bullets = []

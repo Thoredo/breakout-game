@@ -93,4 +93,6 @@ class LevelFinishedScreen:
         self.game_instance.boost_handler.remove_on_screen_boosts()
         self.game_instance.boost_handler.stop_active_boosts()
 
+        self.game_instance.paddle.remove_bullets()
+
         self.gamestatemanager.set_state("game")

@@ -112,6 +112,7 @@ class Ball:
         self.back_on_paddle()
         self.game_instance.boost_handler.remove_on_screen_boosts()
         self.game_instance.boost_handler.stop_active_boosts()
+        self.paddle.remove_bullets()
 
     def check_collision_bricks(self):
         """
