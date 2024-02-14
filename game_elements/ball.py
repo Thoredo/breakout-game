@@ -212,6 +212,7 @@ class Ball:
         """
         if self.rect.left < self.ball_radius or self.rect.right > SCREEN_WIDTH:
             self.x_speed *= -1
+            self.sound.play_hit_wall()
 
     def check_top_collision(self):
         """
@@ -219,6 +220,7 @@ class Ball:
         """
         if self.rect.top < self.ball_radius:
             self.y_speed *= -1
+            self.sound.play_hit_wall()
 
     def check_bottom_collision(self):
         """
