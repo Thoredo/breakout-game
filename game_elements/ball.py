@@ -146,6 +146,7 @@ class Ball:
 
         if brick.health == 0:
             self.remove_brick(brick)
+            self.sound.play_break_brick()
         else:
             self.sound.play_hit_brick()
 
