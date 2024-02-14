@@ -142,9 +142,13 @@ class Ball:
         brick.health -= 1
         self.game_instance.player_score += self.points_gained
         self.game_instance.boost_handler.check_boost_spawn(brick)
+        self.sound.play_hit_brick()
 
         if brick.health == 0:
             self.remove_brick(brick)
+        else:
+            self.sound.play_hit_brick()
+
         self.game_instance.check_victory()
 
     def remove_brick(self, brick):
