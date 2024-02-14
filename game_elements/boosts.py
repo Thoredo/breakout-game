@@ -50,8 +50,7 @@ class BoostHandler:
         brick (Brick): The brick object that was broken.
         """
         spawn_number = random.randint(1, 10000)
-        # if spawn_number < 1500:
-        if spawn_number < 9999:
+        if spawn_number < 1500:
             self.select_boost_type(brick)
 
     def select_boost_type(self, brick):
@@ -64,9 +63,8 @@ class BoostHandler:
         """
         boost_type_number = random.randint(1, 1000)
 
-        if boost_type_number <= 999:
-            # self.spawn_boost(EXTEND_TYPE, "enlarge_paddle", brick)
-            self.spawn_boost(SHOOT_TYPE, "paddle_shoot", brick)
+        if boost_type_number <= 150:
+            self.spawn_boost(EXTEND_TYPE, "enlarge_paddle", brick)
         elif 150 < boost_type_number <= 300:
             self.spawn_boost(SHRINK_TYPE, "shrink_paddle", brick)
         elif 300 < boost_type_number <= 450:
