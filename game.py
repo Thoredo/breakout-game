@@ -5,6 +5,7 @@ from game_interface.instructions_page import InstructionsPage
 from game_interface.game_screen import GameScreen
 from game_interface.main_menu import MainMenu
 from game_interface.game_over_screen import GameOverScreen
+from game_interface.level_finished import LevelFinishedScreen
 from game_elements.paddle import Paddle
 from game_elements.ball import Ball
 from game_elements.level import Level
@@ -57,6 +58,7 @@ class Game:
         self.player_score = 0
         self.current_level = 1
         self.active_balls = []
+        self.all_bricks_gone = True
 
         pygame.font.init()
 
@@ -64,6 +66,9 @@ class Game:
         self.main_menu = MainMenu(self.screen, self.game_state_manager, self)
         self.instructions = InstructionsPage(self.screen, self.game_state_manager, self)
         self.game_over_screen = GameOverScreen(
+            self.screen, self.game_state_manager, self
+        )
+        self.level_done_screen = LevelFinishedScreen(
             self.screen, self.game_state_manager, self
         )
         self.paddle = Paddle(self.screen, self)
@@ -85,6 +90,7 @@ class Game:
             "instructions": self.instructions,
             "game": self.game_screen,
             "game over": self.game_over_screen,
+            "level done": self.level_done_screen,
         }
 
     def run(self):
@@ -133,3 +139,22 @@ class Game:
             self.active_balls[0].on_paddle = False
         if keys[pygame.K_SPACE]:
             self.paddle.shoot_gun()
+
+    def check_victory(self):
+        """
+        Checks if all bricks are off the screen, then opens the level finished screen.
+        """
+        self.all_bricks_gone = True
+        for brick in self.level.bricks:
+            if brick.health > 0:
+                self.all_bricks_gone = False
+
+        if self.all_bricks_gone == True:
+            self.open_level_done_screen()
+
+    def open_level_done_screen(self):
+        """
+        Sets the current game state to 'level done' which causes the
+        level done screen to open.
+        """
+        self.game_state_manager.set_state("level done")

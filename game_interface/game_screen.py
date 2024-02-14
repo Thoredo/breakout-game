@@ -68,7 +68,7 @@ class GameScreen:
         Draws all scoreboard components.
         """
         level_text = self.scoreboard_font.render(
-            f"Level: {self.game_instance.current_level}", True, "white"
+            f"Level: {self.game_instance.level.current_level}", True, "white"
         )
         self.display.blit(level_text, (300, 10))
 

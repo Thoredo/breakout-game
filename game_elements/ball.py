@@ -109,9 +109,7 @@ class Ball:
         Handles the case when the ball misses the paddle.
         """
         self.game_instance.player_lives -= 1
-        self.game_instance.active_balls[0].on_paddle = True
-        self.game_instance.active_balls[0].x_pos = self.paddle.x_pos + 40
-        self.game_instance.active_balls[0].y_pos = BALL_START_Y
+        self.back_on_paddle()
 
     def check_collision_bricks(self):
         """
@@ -139,6 +137,7 @@ class Ball:
         if brick.health == 0:
             self.remove_brick(brick)
             self.game_instance.boost_handler.check_boost_spawn(brick)
+        self.game_instance.check_victory()
 
     def remove_brick(self, brick):
         """
@@ -221,8 +220,7 @@ class Ball:
                     self.game_instance.boost_handler.deactivate_boost(boost["boost"])
 
                 self.game_instance.boost_handler.active_boosts = []
-                self.game_instance.active_balls[0].x_speed = 3
-                self.game_instance.active_balls[0].y_speed = -3
+                self.reset_direction()
 
     def check_paddle_collision(self):
         """
@@ -233,3 +231,12 @@ class Ball:
             and self.y_speed > 0
         ):
             self.y_speed *= -1
+
+    def back_on_paddle(self):
+        self.game_instance.active_balls[0].on_paddle = True
+        self.game_instance.active_balls[0].x_pos = self.paddle.x_pos + 40
+        self.game_instance.active_balls[0].y_pos = BALL_START_Y
+
+    def reset_direction(self):
+        self.game_instance.active_balls[0].x_speed = 3
+        self.game_instance.active_balls[0].y_speed = -3
