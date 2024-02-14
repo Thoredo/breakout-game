@@ -233,10 +233,16 @@ class Ball:
             self.y_speed *= -1
 
     def back_on_paddle(self):
+        """
+        Puts the ball back on the paddle.
+        """
         self.game_instance.active_balls[0].on_paddle = True
         self.game_instance.active_balls[0].x_pos = self.paddle.x_pos + 40
         self.game_instance.active_balls[0].y_pos = BALL_START_Y
 
     def reset_direction(self):
+        """
+        Resets the balls direction to move north east.
+        """
         self.game_instance.active_balls[0].x_speed = 3
         self.game_instance.active_balls[0].y_speed = -3

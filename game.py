@@ -31,11 +31,13 @@ class Game:
     player_score(int): Keeps track of the players score.
     current_level(int): Keeps track of what level the player is in.
     active_balls(list): List of active balls on screen
+    all_bricks_gone(bool): Checks if all bricks of a level are gone.
     game_state_manager(GameStateManager): Instance of GameStateManager class
                                         manages the current window of the game.
     main_menu(MainMenu): Instance for the main menu screen.
     instructions(Instructions): Instance for the instructions screen.
     game_over_screen(GameOverScreen): Instance for the game over screen.
+    level_done_screen(LevelFinishedScreen): Instance for the level done screen.
     paddle(Paddle): Instance of the paddle object.
     level(Level): Instance of the level object.
     ball(Ball): Instance of the ball object.

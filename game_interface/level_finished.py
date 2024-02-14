@@ -11,7 +11,13 @@ class LevelFinishedScreen:
     Attributes
     ----------
     display (pygame.Surface): The Pygame surface representing the game window.
-    game_state_manager (GameStateManager): Instance of GameStateManager class managing the current window state.
+    game_state_manager (GameStateManager): Instance of GameStateManager class
+                    managing the current window state.
+    game_instance (Game): Instance of the main Game class, allowing access to
+                    game state and components.
+    level_done_font (pygame.font.Font): The font used for the level done text.
+    stats_font (pygame.font.Font): The font used for the stats on screen.
+    next_level_font (pygame.font.Font): The font used for the next level button.
     """
 
     def __init__(self, display, game_state_manager, game_instance):
@@ -21,7 +27,10 @@ class LevelFinishedScreen:
         Parameters
         ----------
         display (pygame.Surface): The Pygame surface representing the game window.
-        game_state_manager (GameStateManager): Instance of GameStateManager class managing the current window state.
+        game_state_manager (GameStateManager): Instance of GameStateManager class
+                    managing the current window state.
+        game_instance (Game): Instance of the main Game class, allowing access to
+                    game state and components.
         """
         self.display = display
         self.gamestatemanager = game_state_manager

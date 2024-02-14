@@ -8,8 +8,10 @@ class GameScreen:
     Attributes
     ----------
     display (pygame.Surface): The Pygame surface representing the game window.
-    game_state_manager (GameStateManager): Instance of GameStateManager class managing the current window state.
-    game_instance (Game): Instance of the main Game class, allowing access to game state and components.
+    game_state_manager (GameStateManager): Instance of GameStateManager class
+                    managing the current window state.
+    game_instance (Game): Instance of the main Game class, allowing access to
+                    game state and components.
     paddle(Paddle): Instance of the paddle object.
     level(Level): Instance of the level object.
     ball(Ball): Instance of the ball object.
