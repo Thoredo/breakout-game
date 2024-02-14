@@ -1,4 +1,5 @@
 import pygame
+from pygame import mixer
 import constants
 from game_interface.game_state_manager import GameStateManager
 from game_interface.instructions_page import InstructionsPage
@@ -50,6 +51,9 @@ class Game:
         Initializes the Game class.
         """
         pygame.init()
+        pygame.font.init()
+        mixer.init()
+
         self.screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
         pygame.display.set_caption("Breakout")
         self.clock = pygame.time.Clock()
@@ -61,8 +65,6 @@ class Game:
         self.current_level = 1
         self.active_balls = []
         self.all_bricks_gone = True
-
-        pygame.font.init()
 
         self.game_state_manager = GameStateManager("main menu")
         self.main_menu = MainMenu(self.screen, self.game_state_manager, self)

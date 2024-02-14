@@ -1,5 +1,6 @@
 import pygame
 import constants
+from game_elements.sounds import Sound
 
 SCREEN_WIDTH, SCREEN_HEIGHT = constants.SCREEN_WIDTH, constants.SCREEN_HEIGHT
 BALL_SPEED_X = constants.BALL_SPEED_X
@@ -17,7 +18,8 @@ class Ball:
     ----------
     display (pygame.Surface): The Pygame surface representing the game window.
     paddle (Paddle): The paddle object.
-    game_instance (Game): Instance of the main Game class, allowing access to game state and components.
+    game_instance (Game): Instance of the main Game class, allowing access to
+                    game state and components.
     level (Level): The current level object.
     ball_radius (int): The radius of the ball.
     on_paddle (bool): Indicates whether the ball is on the paddle or not.
@@ -28,6 +30,7 @@ class Ball:
     collision_treshold (int): The threshold for collision detection.
     points_gained (int): The points gained when hitting a brick.
     rect (pygame.Rect): The rectangular area representing the ball.
+    sound (Sound): Instance of the Sound class.
     """
 
     def __init__(
@@ -73,6 +76,7 @@ class Ball:
         self.rect = pygame.Rect(
             self.x_pos, self.y_pos, self.ball_radius, self.ball_radius
         )
+        self.sound = Sound()
 
     def draw_ball(self):
         """
@@ -231,6 +235,7 @@ class Ball:
             and self.y_speed > 0
         ):
             self.y_speed *= -1
+            self.sound.play_hit_paddle()
 
     def back_on_paddle(self):
         """
