@@ -50,7 +50,8 @@ class BoostHandler:
         brick (Brick): The brick object that was broken.
         """
         spawn_number = random.randint(1, 10000)
-        if spawn_number < 1500:
+        # if spawn_number < 1500:
+        if spawn_number < 9999:
             self.select_boost_type(brick)
 
     def select_boost_type(self, brick):
@@ -365,3 +366,9 @@ class BoostHandler:
         Stops the paddle shooting boost.
         """
         self.game_instance.paddle.remove_gun()
+
+    def remove_on_screen_boosts(self):
+        """
+        Removes the boosts that are currently falling down.
+        """
+        self.on_screen_boosts = []

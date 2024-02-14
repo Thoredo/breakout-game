@@ -110,6 +110,7 @@ class Ball:
         """
         self.game_instance.player_lives -= 1
         self.back_on_paddle()
+        self.game_instance.boost_handler.remove_on_screen_boosts()
 
     def check_collision_bricks(self):
         """

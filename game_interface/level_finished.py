@@ -90,4 +90,6 @@ class LevelFinishedScreen:
         self.game_instance.ball.back_on_paddle()
         self.game_instance.ball.reset_direction()
 
+        self.game_instance.boost_handler.remove_on_screen_boosts()
+
         self.gamestatemanager.set_state("game")
