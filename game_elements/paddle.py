@@ -145,4 +145,7 @@ class Paddle:
         self.gun_active = False
 
     def remove_bullets(self):
+        """
+        Removes any bullets still on screen.
+        """
         self.bullets = []
