@@ -64,8 +64,9 @@ class BoostHandler:
         """
         boost_type_number = random.randint(1, 1000)
 
-        if boost_type_number <= 150:
-            self.spawn_boost(EXTEND_TYPE, "enlarge_paddle", brick)
+        if boost_type_number <= 999:
+            # self.spawn_boost(EXTEND_TYPE, "enlarge_paddle", brick)
+            self.spawn_boost(SHOOT_TYPE, "paddle_shoot", brick)
         elif 150 < boost_type_number <= 300:
             self.spawn_boost(SHRINK_TYPE, "shrink_paddle", brick)
         elif 300 < boost_type_number <= 450:
@@ -211,7 +212,13 @@ class BoostHandler:
         elif boost["type"] == POINTS_TYPE:
             self.stop_points_boost()
         elif boost["type"] == SHOOT_TYPE:
-            self.stop_shoot_boost()
+            shoot_boost_done = True
+            for active_boost in self.active_boosts:
+                if active_boost["boost"]["type"] == SHOOT_TYPE:
+                    shoot_boost_done = False
+
+            if shoot_boost_done:
+                self.stop_shoot_boost()
 
     def start_extend_boost(self, boost):
         """
@@ -380,5 +387,7 @@ class BoostHandler:
         """
         for boost in self.active_boosts:
             self.deactivate_boost(boost["boost"])
+
+        self.stop_shoot_boost()
 
         self.active_boosts = []
