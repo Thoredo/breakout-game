@@ -372,3 +372,13 @@ class BoostHandler:
         Removes the boosts that are currently falling down.
         """
         self.on_screen_boosts = []
+
+    def stop_active_boosts(self):
+        """
+        Stops any active boost when the player misses a ball or when the player
+        reaches the next level.
+        """
+        for boost in self.active_boosts:
+            self.deactivate_boost(boost["boost"])
+
+        self.active_boosts = []

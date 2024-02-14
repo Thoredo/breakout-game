@@ -111,6 +111,7 @@ class Ball:
         self.game_instance.player_lives -= 1
         self.back_on_paddle()
         self.game_instance.boost_handler.remove_on_screen_boosts()
+        self.game_instance.boost_handler.stop_active_boosts()
 
     def check_collision_bricks(self):
         """
@@ -217,10 +218,6 @@ class Ball:
                 self.game_instance.active_balls.remove(self)
             else:
                 self.handle_missed_ball()
-                for boost in self.game_instance.boost_handler.active_boosts:
-                    self.game_instance.boost_handler.deactivate_boost(boost["boost"])
-
-                self.game_instance.boost_handler.active_boosts = []
                 self.reset_direction()
 
     def check_paddle_collision(self):
