@@ -32,7 +32,7 @@ class GameScreen:
         ball(Ball): Instance of the ball object.
         """
         self.display = display
-        self.gamestatemanager = game_state_manager
+        self.game_state_manager = game_state_manager
         self.game_instance = game_instance
         self.paddle = paddle
         self.ball = ball
@@ -89,4 +89,4 @@ class GameScreen:
         Sets the game state to game over once the player is out of lives.
         """
         if self.game_instance.player_lives == 0:
-            self.gamestatemanager.set_state("game over")
+            self.game_state_manager.set_state("game over")
