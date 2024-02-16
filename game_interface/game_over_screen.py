@@ -26,7 +26,7 @@ class GameOverScreen:
         game_instance (Game): Instance of the main Game class, allowing access to game state and components.
         """
         self.display = display
-        self.gamestatemanager = game_state_manager
+        self.game_state_manager = game_state_manager
         self.game_instance = game_instance
         self.game_over_font = pygame.font.SysFont("Arial", 90, bold=True)
         self.stats_font = pygame.font.SysFont("Arial", 30, bold=True)
@@ -74,4 +74,4 @@ class GameOverScreen:
         Sets the current game state to 'main menu' which causes the
         main menu to open.
         """
-        self.gamestatemanager.set_state("main menu")
+        self.game_state_manager.set_state("main menu")
