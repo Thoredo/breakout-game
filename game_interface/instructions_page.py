@@ -29,10 +29,29 @@ class InstructionsPage:
         game_instance (Game): Instance of the main Game class, allowing access to game state and components.
         """
         self.display = display
-        self.gamestatemanager = game_state_manager
+        self.game_state_manager = game_state_manager
         self.game_instance = game_instance
         self.instruction_headers = pygame.font.SysFont("Arial", 30, bold=True)
         self.instruction_small_text = pygame.font.SysFont("Arial", 22, bold=True)
+
+        # Load images
+        # Boost images
+        self.enlarge_paddle = pygame.image.load("images/enlarge_paddle.png")
+        self.shrink_paddle = pygame.image.load("images/shrink_paddle.png")
+        self.add_live = pygame.image.load("images/add_life.png")
+        self.add_ball = pygame.image.load("images/add_ball.png")
+        self.speed_up_ball = pygame.image.load("images/speed_up_ball.png")
+        self.slow_down_ball = pygame.image.load("images/slow_down_ball.png")
+        self.increase_points_gained = pygame.image.load(
+            "images/increase_points_gained.png"
+        )
+        self.paddle_shooting = pygame.image.load("images/paddle_shoot.png")
+
+        # Control images
+        self.left_arrow = pygame.image.load("images/left_arrow.png")
+        self.right_arrow = pygame.image.load("images/right_arrow.png")
+        self.up_arrow = pygame.image.load("images/up_arrow.png")
+        self.space_bar = pygame.image.load("images/space_bar.png")
 
     def run(self):
         """
@@ -55,8 +74,7 @@ class InstructionsPage:
 
         # Enlarge Paddle
         # ------------------------------------------------------------------#
-        enlarge_paddle = pygame.image.load("images/enlarge_paddle.png")
-        self.display.blit(enlarge_paddle, (30, 80))
+        self.display.blit(self.enlarge_paddle, (30, 80))
         enlarge_text = self.instruction_small_text.render(
             "Makes paddle bigger", True, "white"
         )
@@ -64,8 +82,7 @@ class InstructionsPage:
 
         # Shrink Paddle
         # ------------------------------------------------------------------#
-        shrink_paddle = pygame.image.load("images/shrink_paddle.png")
-        self.display.blit(shrink_paddle, (30, 130))
+        self.display.blit(self.shrink_paddle, (30, 130))
         shrink_text = self.instruction_small_text.render(
             "Makes paddle smaller", True, "white"
         )
@@ -73,8 +90,7 @@ class InstructionsPage:
 
         # Add Live
         # ------------------------------------------------------------------#
-        add_live = pygame.image.load("images/add_life.png")
-        self.display.blit(add_live, (30, 180))
+        self.display.blit(self.add_live, (30, 180))
         add_live_text = self.instruction_small_text.render(
             "Gives the player an extra live", True, "white"
         )
@@ -82,8 +98,7 @@ class InstructionsPage:
 
         # Add Ball
         # ------------------------------------------------------------------#
-        add_ball = pygame.image.load("images/add_ball.png")
-        self.display.blit(add_ball, (30, 230))
+        self.display.blit(self.add_ball, (30, 230))
         add_ball_text = self.instruction_small_text.render(
             "Adds another active ball, 3 max", True, "white"
         )
@@ -91,8 +106,7 @@ class InstructionsPage:
 
         # Speed Up Ball
         # ------------------------------------------------------------------#
-        speed_up_ball = pygame.image.load("images/speed_up_ball.png")
-        self.display.blit(speed_up_ball, (530, 80))
+        self.display.blit(self.speed_up_ball, (530, 80))
         speed_up_text = self.instruction_small_text.render(
             "Makes the ball go faster", True, "white"
         )
@@ -100,8 +114,7 @@ class InstructionsPage:
 
         # Slow Up Ball
         # ------------------------------------------------------------------#
-        slow_down_ball = pygame.image.load("images/slow_down_ball.png")
-        self.display.blit(slow_down_ball, (530, 130))
+        self.display.blit(self.slow_down_ball, (530, 130))
         slow_down_text = self.instruction_small_text.render(
             "Makes the ball go slower", True, "white"
         )
@@ -109,8 +122,7 @@ class InstructionsPage:
 
         # Increase points gained
         # ------------------------------------------------------------------#
-        increase_points_gained = pygame.image.load("images/increase_points_gained.png")
-        self.display.blit(increase_points_gained, (530, 180))
+        self.display.blit(self.increase_points_gained, (530, 180))
         increase_points_text = self.instruction_small_text.render(
             "Increases points earned by 1.5", True, "white"
         )
@@ -118,8 +130,7 @@ class InstructionsPage:
 
         # Let Paddle Shoot
         # ------------------------------------------------------------------#
-        paddle_shooting = pygame.image.load("images/paddle_shoot.png")
-        self.display.blit(paddle_shooting, (530, 230))
+        self.display.blit(self.paddle_shooting, (530, 230))
         paddle_shooting_text = self.instruction_small_text.render(
             "Lets the paddle shoot upward", True, "white"
         )
@@ -132,8 +143,7 @@ class InstructionsPage:
 
         # Move Left
         # ------------------------------------------------------------------#
-        left_arrow = pygame.image.load("images/left_arrow.png")
-        self.display.blit(left_arrow, (30, 400))
+        self.display.blit(self.left_arrow, (30, 400))
         left_arrow_text = self.instruction_small_text.render(
             "Moves paddle to the left", True, "white"
         )
@@ -141,8 +151,7 @@ class InstructionsPage:
 
         # Move Right
         # ------------------------------------------------------------------#
-        right_arrow = pygame.image.load("images/right_arrow.png")
-        self.display.blit(right_arrow, (30, 450))
+        self.display.blit(self.right_arrow, (30, 450))
         right_arrow_text = self.instruction_small_text.render(
             "Moves paddle to the right", True, "white"
         )
@@ -150,8 +159,7 @@ class InstructionsPage:
 
         # Release Ball Off Paddle
         # ------------------------------------------------------------------#
-        up_arrow = pygame.image.load("images/up_arrow.png")
-        self.display.blit(up_arrow, (600, 400))
+        self.display.blit(self.up_arrow, (600, 400))
         up_arrow_text = self.instruction_small_text.render(
             "Releases the ball from the paddle", True, "white"
         )
@@ -159,8 +167,7 @@ class InstructionsPage:
 
         # Shoot
         # ------------------------------------------------------------------#
-        space_bar = pygame.image.load("images/space_bar.png")
-        self.display.blit(space_bar, (570, 450))
+        self.display.blit(self.space_bar, (570, 450))
         space_bar_text = self.instruction_small_text.render(
             "Lets the paddle shoot upwards", True, "white"
         )
@@ -185,4 +192,4 @@ class InstructionsPage:
         Sets the current game state to 'main menu' which causes the
         main menu to open.
         """
-        self.gamestatemanager.set_state("main menu")
+        self.game_state_manager.set_state("main menu")
