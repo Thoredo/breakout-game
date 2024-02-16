@@ -35,6 +35,8 @@ class MainMenu:
         self.game_instance = game_instance
         self.menu_font = pygame.font.SysFont("Arial", 30, bold=True)
 
+        self.logo = pygame.image.load("images/logo.png")
+
     def run(self):
         """
         Fills the screen with a black background to overwrite previous elements,
@@ -48,8 +50,7 @@ class MainMenu:
         Creates the main menu components. Also handles user interaction with
         these buttons.
         """
-        logo = pygame.image.load("images/logo.png")
-        self.display.blit(logo, (273, 145))
+        self.display.blit(self.logo, (273, 145))
 
         # Play Button
         pygame.draw.rect(self.display, "black", (490, 300, 100, 50))
