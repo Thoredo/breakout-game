@@ -4,14 +4,14 @@ import time
 import constants
 from game_elements.ball import Ball
 
-EXTEND_TYPE = "extend paddle"
-SHRINK_TYPE = "shrink paddle"
-FASTER_TYPE = "faster ball"
-SLOWER_TYPE = "slower ball"
-LIFE_TYPE = "extra life"
-POINTS_TYPE = "point boost"
-BALL_TYPE = "extra ball"
-SHOOT_TYPE = "paddle shoots"
+EXTEND_TYPE = constants.EXTEND_TYPE
+SHRINK_TYPE = constants.SHRINK_TYPE
+FASTER_TYPE = constants.FASTER_TYPE
+SLOWER_TYPE = constants.SLOWER_TYPE
+LIFE_TYPE = constants.LIFE_TYPE
+POINTS_TYPE = constants.POINTS_TYPE
+BALL_TYPE = constants.BALL_TYPE
+SHOOT_TYPE = constants.SHOOT_TYPE
 SPEED_BOOSTS_NUMBER = constants.SPEED_BOOSTS_NUMBER
 
 
