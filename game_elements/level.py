@@ -40,6 +40,10 @@ class Level:
         for y_pos in self.y_positions:
             for x_pos in self.x_positions:
                 spawn_chance = random.randint(1, 100)
+
+                # Spawn bricks, 40% chance for a brick with difficulty of last level.
+                # 55% chance for a brick with difficulty of the current level.
+                # 5% chance that no brick spawns.
                 if 40 > spawn_chance and self.current_level > 1:
                     new_brick = Brick(
                         self.display, self.current_level - 1, x_pos, y_pos
