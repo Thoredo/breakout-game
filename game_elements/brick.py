@@ -56,6 +56,7 @@ class Brick:
                 (self.x_pos, self.y_pos, self.width, self.height),
             )
         else:
+            # If the color list is out of colors the list starts from the beginning.
             self.difficulty = self.difficulty % len(self.colors)
             pygame.draw.rect(
                 self.display,
