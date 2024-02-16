@@ -62,10 +62,11 @@ class Game:
         self.mouse_clicked = (False, False, False)
         self.player_lives = PLAYER_LIVES
         self.player_score = 0
-        self.current_level = 2
+        self.current_level = 1
         self.active_balls = []
         self.all_bricks_gone = True
 
+        # Create instances for all objects
         self.game_state_manager = GameStateManager("main menu")
         self.main_menu = MainMenu(self.screen, self.game_state_manager, self)
         self.instructions = InstructionsPage(self.screen, self.game_state_manager, self)
