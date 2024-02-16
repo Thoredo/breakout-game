@@ -33,7 +33,7 @@ class LevelFinishedScreen:
                     game state and components.
         """
         self.display = display
-        self.gamestatemanager = game_state_manager
+        self.game_state_manager = game_state_manager
         self.game_instance = game_instance
         self.level_done_font = pygame.font.SysFont("Arial", 90, bold=True)
         self.stats_font = pygame.font.SysFont("Arial", 30, bold=True)
@@ -90,9 +90,10 @@ class LevelFinishedScreen:
         self.game_instance.ball.back_on_paddle()
         self.game_instance.ball.reset_direction()
 
+        # Remove active boosts and those on screen
         self.game_instance.boost_handler.remove_on_screen_boosts()
         self.game_instance.boost_handler.stop_active_boosts()
 
         self.game_instance.paddle.remove_bullets()
 
-        self.gamestatemanager.set_state("game")
+        self.game_state_manager.set_state("game")
