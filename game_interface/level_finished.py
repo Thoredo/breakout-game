@@ -96,4 +96,8 @@ class LevelFinishedScreen:
 
         self.game_instance.paddle.remove_bullets()
 
+        # Remove extra balls from game
+        for ball in self.game_instance.active_balls[1:]:
+            self.game_instance.active_balls.remove(ball)
+
         self.game_state_manager.set_state("game")
