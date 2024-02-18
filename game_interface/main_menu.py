@@ -119,13 +119,13 @@ class MainMenu:
         # Empty current bricks list
         self.game_instance.level.bricks = []
 
-        # Create new bricks
-        self.game_instance.level.create_bricks()
-
         # Reset stats
         self.game_instance.player_lives = PLAYER_LIVES
-        self.game_instance.current_level = 1
+        self.game_instance.level.current_level = 1
         self.game_instance.player_score = 0
+
+        # Create new bricks
+        self.game_instance.level.create_bricks()
 
         # Move paddle back to center
         self.game_instance.paddle.x_pos = PADDLE_STARTING_X
